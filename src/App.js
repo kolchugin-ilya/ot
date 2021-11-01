@@ -2,6 +2,7 @@ import React from "react";
 import {Route, Switch} from "react-router-dom";
 import styles from './App.module.css'
 import Login from "./layout/Pages/Login/Login";
+import Index from "./layout/Pages/Index/Index";
 
 const App = () => {
     return (
@@ -9,6 +10,9 @@ const App = () => {
                 <Switch>
                     <Route exact path="/">
                         <Login/>
+                    </Route>
+                    <Route exact path="/ind">
+                        <Index/>
                     </Route>
                 </Switch>
             </div>
