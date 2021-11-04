@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Navbar.module.css';
 import {Link} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const MyNav = () => {
     return (
@@ -30,14 +31,19 @@ const MyNav = () => {
 }
 
 const Navbar = () => {
+    const {show} = useSelector(state => state.toggle)
+
     return (
         <div className={styles.container}>
             <div className={styles.navbar}>
                 <MyNav/>
             </div>
-            <div className={styles.navbarMobile}>
-                <MyNav/>
-            </div>
+            {
+                show &&
+                <div className={styles.navbarMobile}>
+                    <MyNav/>
+                </div>
+            }
         </div>
     );
 };
