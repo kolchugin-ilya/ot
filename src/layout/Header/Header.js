@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
 import styles from './Header.module.css'
-import logo from "../../components/img/logo.png";
+import logo from "../../components/Img/logo.png";
 import {Button, Select} from "grommet";
 import {Close, Menu} from "grommet-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {setToggle} from "../../store/actions/header-actions";
+import {Link} from "react-router-dom";
 
 const Header = () => {
     const {show} = useSelector(state => state.toggle)
@@ -32,7 +33,7 @@ const Header = () => {
                         onClick={() =>
                             show ? dispatch(setToggle(false)) : dispatch(setToggle(true))}/>
             </span>
-                <img src={logo} alt="Logo"/>
+                <Link to="/"><img src={logo} alt="Logo"/></Link>
                 <p><b>ИС «Отдел охраны труда НГТУ»</b></p>
             </div>
         </>

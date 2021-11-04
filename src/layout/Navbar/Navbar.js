@@ -8,7 +8,7 @@ const MyNav = () => {
         <div className={styles.list}>
             <ul>
                 <li>Справочники</li>
-                <li><Link to="spisok_sotr">Список сотрудников</Link></li>
+                <li><Link to="employers">Список сотрудников</Link></li>
                 <li><Link to="dolzh">Должность</Link></li>
                 <li><Link to="tip_pers">Тип персонала</Link></li>
                 <li><Link to="vid_zanyatosti">Вид занятости</Link></li>

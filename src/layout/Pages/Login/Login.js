@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Login.module.css'
-import logo from '../../../components/img/logo4.png';
+import logo from '../../../components/Img/logo4.png';
 import {Text, TextInput} from "grommet";
 import {MyButton} from "../../../components/Button/MyButton";
 
