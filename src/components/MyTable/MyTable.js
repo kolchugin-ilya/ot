@@ -1,40 +1,18 @@
 import React from 'react';
 import {TableBody, TableCell, TableHeader, TableRow, Table} from "grommet";
-import {Menu} from "grommet-icons";
+import {Edit, Trash} from "grommet-icons";
 import styles from './MyTable.module.css';
 
-const headers = [
-    'ФИО',
-    'Дата рождения',
-    'Должность',
-    'Подразделение',
-    'Подразделение',
-    'Подразделение',
-    'Подразделение',
-    'Подразделение',
-];
-const employers = [
-    'Фамилия Имя Отчество',
-    '01.01.1998',
-    'Младший инженер',
-    'Кафедра',
-    'Кафедра',
-    'Кафедра',
-    'Подразделение',
-    'Подразделение',
-];
-
-const MyTable = () => {
+const MyTable = (props) => {
     return (
-        <div className={styles.container}>
-            <Table >
+            <Table className={styles.container}>
                 <TableHeader>
                     <TableRow>
-                        <TableCell scope="col" border="bottom">
+                        <TableCell scope="row">
                         </TableCell>
                         {
-                            headers.map(val => {
-                                return <TableCell scope="col" border="bottom">
+                            props.headers.map(val => {
+                                return <TableCell scope="col" border>
                                     {
                                         val
                                     }
@@ -45,17 +23,17 @@ const MyTable = () => {
                 </TableHeader>
                 <TableBody>
                     {
-                        ['1','2','3','4','5',
-                            '1','2','3','4','5',
-                            '1','2','3','4','5'].map(len => {
-                            return <TableRow>
-                                <TableCell scope="row">
-                                    <Menu size="50x"/>
-                                    <Menu size="50x"/>
+                        props.data.map(len => {
+                            return <TableRow className={styles.tableRow}>
+                                <TableCell scope="row" border>
+                                    <div className={styles.icons}>
+                                        <Edit size="35x"  color="#74cf70"/>
+                                        <Trash size="35x" color="#f76f57"/>
+                                    </div>
                                 </TableCell>
                                 {
-                                    employers.map(emp => {
-                                        return <TableCell scope="row">
+                                    len.map(emp => {
+                                        return <TableCell scope="row"  border="bottom" border>
                                             {
                                                 emp
                                             }
@@ -67,7 +45,6 @@ const MyTable = () => {
                     }
                 </TableBody>
             </Table>
-        </div>
     );
 };
 

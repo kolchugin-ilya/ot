@@ -7,6 +7,10 @@
 .data {
     margin: 0 3% 3% 0;
     overflow: auto;
+    display: flex;
+    /**/
+    width: 95%;
+    /**/
 }
 .main {
     width: 100%;

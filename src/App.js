@@ -7,6 +7,9 @@ import Navbar from "./layout/Navbar/Navbar";
 import Header from "./layout/Header/Header";
 import Footer from "./layout/Footer/Footer";
 import PageNotFound from "./layout/Pages/PageNotFound/PageNotFound";
+import Position from "./layout/Pages/Position/Position";
+import MyTable from "./components/MyTable/MyTable";
+import {dataEmployers, dataPosition, headersDefault, headersEmployers} from "./data";
 
 const App = () => {
     return (
@@ -25,7 +28,16 @@ const App = () => {
                                 </div>
                             </Route>
                             <Route exact path="/employers">
-                                <Employers/>
+                                <MyTable
+                                    headers={headersEmployers}
+                                    data={dataEmployers}
+                                />
+                            </Route>
+                            <Route exact path="/position">
+                                <MyTable
+                                    headers={headersDefault}
+                                    data={dataPosition}
+                                />
                             </Route>
                             <Route exact>
                                 <PageNotFound/>
@@ -37,5 +49,4 @@ const App = () => {
             </div>
     );
 };
-
 export default App;

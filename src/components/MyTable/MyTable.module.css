@@ -1,4 +1,10 @@
 .container {
-    /*display: flex;*/
-    /*background-color: blue;*/
+    margin-top: 1%;
+}
+.tableRow:hover {
+    background-color: #e0e0e0;
+}
+.icons {
+    display: flex;
+    justify-content: space-around;
 }
