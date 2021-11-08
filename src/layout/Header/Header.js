@@ -18,7 +18,7 @@ const Header = () => {
     return (
         <>
             <div className={styles.adminHeader}>
-                <p>db:12312321</p>
+                <p>db: ohrana_truda</p>
                 <div className={styles.select}>
                     <p>user:</p>
                     <Select
