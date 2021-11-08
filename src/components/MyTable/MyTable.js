@@ -7,55 +7,67 @@ const headers = [
     'ФИО',
     'Дата рождения',
     'Должность',
-    'Подразделение'
+    'Подразделение',
+    'Подразделение',
+    'Подразделение',
+    'Подразделение',
+    'Подразделение',
 ];
 const employers = [
     'Фамилия Имя Отчество',
     '01.01.1998',
     'Младший инженер',
-    'Кафедра'
+    'Кафедра',
+    'Кафедра',
+    'Кафедра',
+    'Подразделение',
+    'Подразделение',
 ];
 
 const MyTable = () => {
     return (
-        <Table className={styles.container}>
-            <TableHeader>
-                <TableRow>
-                    <TableCell scope="col" border="bottom">
-                    </TableCell>
+        <div className={styles.container}>
+            <Table >
+                <TableHeader>
+                    <TableRow>
+                        <TableCell scope="col" border="bottom">
+                        </TableCell>
+                        {
+                            headers.map(val => {
+                                return <TableCell scope="col" border="bottom">
+                                    {
+                                        val
+                                    }
+                                </TableCell>
+                            })
+                        }
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
                     {
-                        headers.map(val => {
-                            return <TableCell scope="col" border="bottom">
+                        ['1','2','3','4','5',
+                            '1','2','3','4','5',
+                            '1','2','3','4','5'].map(len => {
+                            return <TableRow>
+                                <TableCell scope="row">
+                                    <Menu size="50x"/>
+                                    <Menu size="50x"/>
+                                </TableCell>
                                 {
-                                    val
+                                    employers.map(emp => {
+                                        return <TableCell scope="row">
+                                            {
+                                                emp
+                                            }
+                                        </TableCell>
+                                    })
                                 }
-                            </TableCell>
+                            </TableRow>
                         })
                     }
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {
-                    ['1','2','3','4','5','6','7','8','1','1','1','1','1','1','1','1','2','3','4','5','6','7','8','1','1','1','1','1','1','1'].map(len => {
-                        return <TableRow>
-                            <TableCell scope="row">
-                                <Menu size="50x"/>
-                                <Menu size="50x"/>
-                            </TableCell>
-                            {
-                                employers.map(emp => {
-                                    return <TableCell scope="row">
-                                        {
-                                            emp
-                                        }
-                                    </TableCell>
-                                })
-                            }
-                        </TableRow>
-                    })
-                }
-            </TableBody>
-        </Table>
+                </TableBody>
+            </Table>
+        </div>
     );
 };
 

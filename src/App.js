@@ -14,22 +14,24 @@ const App = () => {
                 <Header/>
                 <div className={styles.main}>
                     <Navbar/>
-                    <Switch>
-                        <Route exact path="/login">
-                            <Login/>
-                        </Route>
-                        <Route exact path="/">
-                            <div className={styles.indexText}>
-                                Главная страница
-                            </div>
-                        </Route>
-                        <Route exact path="/employers">
-                            <Employers/>
-                        </Route>
-                        <Route exact>
-                            <PageNotFound/>
-                        </Route>
-                    </Switch>
+                    <div className={styles.data}>
+                        <Switch>
+                            <Route exact path="/login">
+                                <Login/>
+                            </Route>
+                            <Route exact path="/">
+                                <div className={styles.indexText}>
+                                    Главная страница
+                                </div>
+                            </Route>
+                            <Route exact path="/employers">
+                                <Employers/>
+                            </Route>
+                            <Route exact>
+                                <PageNotFound/>
+                            </Route>
+                        </Switch>
+                    </div>
                 </div>
                 <Footer/>
             </div>
