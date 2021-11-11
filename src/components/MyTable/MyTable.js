@@ -1,14 +1,20 @@
 import React from 'react';
 import MaterialTable from "material-table";
-import {Edit, Trash} from "grommet-icons";
+import {Close, Edit, Menu, Trash} from "grommet-icons";
 import styles from './MyTable.module.css';
+import {Button} from "grommet";
 
 const MyTable = (props) => {
     const data = [];
     for (let i = 1; i < 30; i++) {
         data.push({
             icons: <div className={styles.icons}>
-                <Edit size="35x" color="#74cf70"/><Trash size="35x" color="#f76f57"/>
+                <Button icon={<Edit size="35x" color="#74cf70"/>}
+                        onClick={() =>
+                            alert("edit")}/>
+                <Button icon={<Trash size="35x" color="#f76f57"/>}
+                        onClick={() =>
+                            alert("delete")}/>
             </div>,
             name: "ФИО" + i,
             bdate: "0" + i + ".0" + i + ".1998",
@@ -49,46 +55,6 @@ const MyTable = (props) => {
                 title="Список сотрудников"
             />
         </div>
-        // <Table className={styles.container}>
-        //     <TableHeader>
-        //         <TableRow>
-        //             <TableCell scope="row">
-        //             </TableCell>
-        //             {
-        //                 props.headers.map(val => {
-        //                     return <TableCell scope="col" border>
-        //                         {
-        //                             val
-        //                         }
-        //                     </TableCell>
-        //                 })
-        //             }
-        //         </TableRow>
-        //     </TableHeader>
-        //     <TableBody>
-        //         {
-        //             props.data.map(len => {
-        //                 return <TableRow className={styles.tableRow}>
-        //                     <TableCell scope="row" border>
-        //                         <div className={styles.icons}>
-        //                             <Edit size="35x"  color="#74cf70"/>
-        //                             <Trash size="35x" color="#f76f57"/>
-        //                         </div>
-        //                     </TableCell>
-        //                     {
-        //                         len.map(emp => {
-        //                             return <TableCell scope="row"  border="bottom" border>
-        //                                 {
-        //                                     emp
-        //                                 }
-        //                             </TableCell>
-        //                         })
-        //                     }
-        //                 </TableRow>
-        //             })
-        //         }
-        //     </TableBody>
-        // </Table>
     );
 };
 

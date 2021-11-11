@@ -10,6 +10,9 @@ import PageNotFound from "./layout/Pages/PageNotFound/PageNotFound";
 import Position from "./layout/Pages/Position/Position";
 import MyTable from "./components/MyTable/MyTable";
 import {dataEmployers, dataPosition, headersDefault, headersEmployers} from "./data";
+import {Button, Layer} from "grommet";
+import {MyButton} from "./components/Button/MyButton";
+import Modal from "./layout/Modal/Modal";
 
 const App = () => {
     return (
@@ -28,6 +31,7 @@ const App = () => {
                                 </div>
                             </Route>
                             <Route exact path="/employers">
+                                <Modal/>
                                 <MyTable
                                     headers={headersEmployers}
                                     data={dataEmployers}
