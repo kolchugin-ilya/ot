@@ -1,5 +1,24 @@
 .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     height: 100%;
     width: 100%;
-    background-color: red;
+}
+.input {
+    height: 8%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.input * {
+    display: flex;
+    justify-content: center;
+    margin: 0 10%;
+    width: 100%;
+}
+.button {
+    margin-top: 2%;;
+    display: flex;
+    justify-content: center;
 }

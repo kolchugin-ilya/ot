@@ -31,17 +31,10 @@ const App = () => {
                                 </div>
                             </Route>
                             <Route exact path="/employers">
-                                <Modal/>
-                                <MyTable
-                                    headers={headersEmployers}
-                                    data={dataEmployers}
-                                />
+                                <Employers/>
                             </Route>
                             <Route exact path="/position">
-                                <MyTable
-                                    headers={headersDefault}
-                                    data={dataPosition}
-                                />
+
                             </Route>
                             <Route exact>
                                 <PageNotFound/>

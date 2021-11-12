@@ -1,17 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import MaterialTable from "material-table";
 import {Close, Edit, Menu, Trash} from "grommet-icons";
 import styles from './MyTable.module.css';
 import {Button} from "grommet";
+import {useDispatch, useSelector} from "react-redux";
+import {setCloseButton} from "../../store/actions/modal-actions";
+import Modal from "../../layout/Modal/Modal";
 
 const MyTable = (props) => {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(setCloseButton('close'))
+    }, [dispatch])
+
     const data = [];
     for (let i = 1; i < 30; i++) {
         data.push({
             icons: <div className={styles.icons}>
                 <Button icon={<Edit size="35x" color="#74cf70"/>}
                         onClick={() =>
-                            alert("edit")}/>
+                        {
+                            dispatch(setCloseButton('show'))
+                        }
+                        }/>
                 <Button icon={<Trash size="35x" color="#f76f57"/>}
                         onClick={() =>
                             alert("delete")}/>
