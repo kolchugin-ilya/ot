@@ -9,6 +9,7 @@ import {Link} from "react-router-dom";
 
 const Header = () => {
     const {show} = useSelector(state => state.toggle)
+    const {userInfo} = useSelector(state => state.loginReducer)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -18,9 +19,9 @@ const Header = () => {
     return (
         <>
             <div className={styles.adminHeader}>
-                <p>db: ohrana_truda</p>
+                <p>db: </p>
                 <div className={styles.select}>
-                    <p>user:</p>
+                    <p>login: {userInfo.name}</p>
                     <Select
                         value={'1'}
                         options={['1', '2', '3']}

@@ -2,8 +2,25 @@ import React from 'react';
 import styles from './Navbar.module.css';
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
+import axios from "axios";
+import {setSession} from "../../store/actions/login-actions";
 
 const MyNav = () => {
+    const dispatch = useDispatch();
+
+    const logout = () => {
+        axios.post("http://localhost:3001/logout", {}, {withCredentials: true})
+            .then(response => {
+                localStorage.clear()
+                dispatch(setSession({name: "", role: ""}))
+                window.location = "/"
+            })
+            .catch(error => {
+                console.log("check login error", error);
+            });
+    }
+
     return (
         <div className={styles.list}>
             <ul>
@@ -24,7 +41,7 @@ const MyNav = () => {
                 <li><Link to="polzovateli">Пользователи системы</Link></li>
             </ul>
             <ul>
-                <li><Link to="">Выйти</Link></li>
+                <li><Link onClick = {() => logout()} to="">Выйти</Link></li>
             </ul>
         </div>
     )

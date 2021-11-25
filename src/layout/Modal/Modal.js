@@ -32,11 +32,12 @@ const Modal = () => {
                onClose={() => {
                    dispatch(setCloseButton('close'))
                }}
-               width="75"
-               height="75"
+               width={75}
+               height={75}
                measure="%"
         >
             <div className={styles.container}>
+                modal
                 {
                     employers.map(emp => {
                         return <div className={styles.input}>

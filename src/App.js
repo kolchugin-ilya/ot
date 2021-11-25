@@ -1,49 +1,93 @@
-import React from "react";
-import {Route, Switch} from "react-router-dom";
+import React, {useEffect} from "react";
+import {Redirect, Route, Switch} from "react-router-dom";
 import styles from './App.module.css'
-import Login from "./layout/Pages/Login/Login";
 import Employers from "./layout/Pages/Employers/Employers";
 import Navbar from "./layout/Navbar/Navbar";
 import Header from "./layout/Header/Header";
 import Footer from "./layout/Footer/Footer";
 import PageNotFound from "./layout/Pages/PageNotFound/PageNotFound";
-import Position from "./layout/Pages/Position/Position";
-import MyTable from "./components/MyTable/MyTable";
-import {dataEmployers, dataPosition, headersDefault, headersEmployers} from "./data";
-import {Button, Layer} from "grommet";
-import {MyButton} from "./components/Button/MyButton";
-import Modal from "./layout/Modal/Modal";
+import {useDispatch, useSelector} from "react-redux";
+import axios from "axios";
+import {setLoading, setSession} from "./store/actions/login-actions";
+import Login from "./layout/Pages/Login/Login";
+
 
 const App = () => {
-    return (
-            <div className={styles.container}>
-                <Header/>
-                <div className={styles.main}>
-                    <Navbar/>
-                    <div className={styles.data}>
-                        <Switch>
-                            <Route exact path="/login">
-                                <Login/>
-                            </Route>
-                            <Route exact path="/">
-                                <div className={styles.indexText}>
-                                    Главная страница
-                                </div>
-                            </Route>
-                            <Route exact path="/employers">
-                                <Employers/>
-                            </Route>
-                            <Route exact path="/position">
+    const {loading, userInfo} = useSelector(state => state.loginReducer)
+    const dispatch = useDispatch()
 
-                            </Route>
-                            <Route exact>
-                                <PageNotFound/>
-                            </Route>
-                        </Switch>
+    const isLogin = () => {
+        axios.post("http://localhost:3001/isLogin", {}, {withCredentials: true})
+            .then(response => {
+                if (response.data.user) {
+                    dispatch(setSession({name: response.data.user.name, role: response.data.user.role}))
+                } else {
+                    localStorage.clear();
+                    dispatch(setSession({name: "", role: ""}))
+                }
+                dispatch(setLoading(false))
+            })
+            .catch(error => {
+                localStorage.clear();
+                dispatch(setSession({name: "", role: ""}))
+                dispatch(setLoading(false))
+                console.log("check login error", error);
+            });
+    }
+
+    useEffect(() => {
+        isLogin();
+    }, []);
+
+    const PrivateRoute = ({component: Component, props}) => {
+        return <Route {...props}>
+            {
+                (userInfo.name)
+                    ?
+                    <Component userInfo={userInfo}/>
+                    :
+                    <Redirect to="/login"/>
+            }
+        </Route>
+    }
+    return (
+        (loading)
+            ?
+            <div>loading</div>
+            :
+            (userInfo.name) ?
+                <div className={styles.container}>
+                    <Header/>
+                    <div className={styles.main}>
+                        <Navbar/>
+                        <div className={styles.data}>
+                            <Switch>
+                                <Route exact path="/">
+                                    main
+                                </Route>
+                                <Route exact path="/employers">
+                                    <Employers/>
+                                </Route>
+                                <Route exact path="/position">
+                                    positions
+                                </Route>
+                                <Route>
+                                    <PageNotFound/>
+                                </Route>
+                            </Switch>
+                        </div>
                     </div>
+                    <Footer/>
                 </div>
-                <Footer/>
-            </div>
+                :
+                <div className={styles.container}>
+                    <Switch>
+                        <Route exact path="/login">
+                            <Login/>
+                        </Route>
+                        <PrivateRoute exact component={PageNotFound}/>
+                    </Switch>
+                </div>
     );
 };
 export default App;
