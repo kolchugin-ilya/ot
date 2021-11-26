@@ -10,12 +10,20 @@ import {Button} from "grommet";
 const Employers = () => {
     const {employers} = useSelector(state => state.dataReducer)
     const dispatch = useDispatch()
-
+    const header = [
+        {title: '', field: 'icons'},
+        {title: 'Фамилия', field: 'LAST_NAME'},
+        {title: 'Имя', field: 'LAST_NAME'},
+        {title: 'Отчество', field: 'OTC'},
+        {title: 'Дата рождения', field: 'BIRTHDAY', type: 'date'},
+        {title: 'Должность', field: 'POSITION'},
+        {title: 'Подразделение', field: 'PODR_ID'}
+    ]
     const readData = () => {
         axios.post("http://localhost:3001/read", {
             table: "EMPLOYERS",
             columns: "ID, LAST_NAME, FIRST_NAME, OTC, BIRTHDAY, POSITION, PODR_ID"
-        }, {withCredentials: true})
+        })
             .then(response => {
                 let employers = [];
                 response.data.result.map(emp => {
@@ -37,26 +45,14 @@ const Employers = () => {
                 console.log("check login error", error);
             });
     }
-
-    const header = [
-        {title: '', field: 'icons'},
-        {title: 'Фамилия', field: 'LAST_NAME'},
-        {title: 'Имя', field: 'LAST_NAME'},
-        {title: 'Отчество', field: 'OTC'},
-        {title: 'Дата рождения', field: 'BIRTHDAY', type: 'date'},
-        {title: 'Должность', field: 'POSITION'},
-        {title: 'Подразделение', field: 'PODR_ID'}
-    ]
-
     useEffect(() => {
         readData();
     }, [])
-
     return (
         <>
             <Modal/>
             <MyTable
-                title='Список сотрудников'
+                title="Список сотрудников"
                 data={employers}
                 header={header}
             />
