@@ -27,11 +27,11 @@ const Login = () => {
             .catch(error => {
                 dispatch(setError(
                     {
-                        message: "Произошла ошибка, проверьте правильность ввода данных!",
+                        message: error.response.data.message,
                         error: true,
-                        style: {backgroundColor: "red"}
+                        style: {borderColor: "red"}
                     }))
-                console.log("check login error", error);
+                console.log("check login error12123", error);
             });
     }
 
@@ -56,6 +56,7 @@ const Login = () => {
             <form className={styles.main} onSubmit={(event) => handleSubmit(event)}>
                 <Text size="45px">Вход</Text>
                 <TextInput
+                    style={error.style}
                     required
                     type="text"
                     value={name}
@@ -65,6 +66,7 @@ const Login = () => {
                     }}
                 />
                 <TextInput
+                    style={error.style}
                     required
                     type="password"
                     value={password}
@@ -74,14 +76,14 @@ const Login = () => {
                     }}
                 />
                 <div className={styles.buttons}>
-                    <div className={styles.checkbox}>
-                        <input type="checkbox"/>
-                        <label>Сохранить пароль</label>
-                    </div>
                     <MyButton
                         type="submit"
                         label="Вход"
                     />
+                    {
+                        error &&
+                        <div className={styles.message}>{error.message}</div>    
+                    }
                 </div>
             </form>
         </div>

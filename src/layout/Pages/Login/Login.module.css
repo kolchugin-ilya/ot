@@ -41,11 +41,8 @@
     justify-content: center;
     align-items: center;
 }
-.checkbox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
+.message {
+    color: red;
 }
 @media screen and (max-width: 650px){
     .header img {
