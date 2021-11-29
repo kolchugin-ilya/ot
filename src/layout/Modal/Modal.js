@@ -16,7 +16,6 @@ const employers = [
     'Подразделение',
     'СНИЛС',
     'Дата рождения',
-    'Фамилия',
 ];
 
 const Modal = () => {
@@ -36,20 +35,21 @@ const Modal = () => {
                height={75}
                measure="%"
         >
-            <div className={styles.container}>
-                modal
-                {
-                    employers.map(emp => {
-                        return <div className={styles.input}>
-                            <p> {emp} </p>
-                            <input/>
-                        </div>
-                    })
-                }
-                <div className={styles.button}>
-                <button>123</button>
-                </div>
-            </div>
+            1231
+            {/*<div className={styles.container}>*/}
+            {/*    modal*/}
+            {/*    {*/}
+            {/*        employers.map(emp => {*/}
+            {/*            return <div className={styles.input}>*/}
+            {/*                <p> {emp} </p>*/}
+            {/*                <input/>*/}
+            {/*            </div>*/}
+            {/*        })*/}
+            {/*    }*/}
+            {/*    <div className={styles.button}>*/}
+            {/*    <button>123</button>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
         </Rodal>
     );
 };

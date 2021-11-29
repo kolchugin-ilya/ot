@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
 import MyTable from "../../../components/MyTable/MyTable";
-import Modal from "../../Modal/Modal";
+import styles from './Employers.module.css';
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {setEmployers} from "../../../store/actions/data-actions";
 import {Edit, Trash} from "grommet-icons";
 import {Button} from "grommet";
+import {Link} from "react-router-dom";
 
 const Employers = () => {
     const {employers} = useSelector(state => state.dataReducer)
@@ -19,6 +20,14 @@ const Employers = () => {
         {title: 'Должность', field: 'POSITION'},
         {title: 'Подразделение', field: 'PODR_ID'}
     ]
+    const title = (
+        <div className={styles.title}>
+            <p>Список сотрудников</p>
+            <Link to="/employers/add">
+                <button>+ Добавить</button>
+            </Link>
+        </div>
+    )
     const readData = () => {
         axios.post("http://localhost:3001/read", {
             table: "EMPLOYERS",
@@ -45,14 +54,15 @@ const Employers = () => {
                 console.log("check login error", error);
             });
     }
+
     useEffect(() => {
         readData();
     }, [])
+
     return (
         <>
-            <Modal/>
             <MyTable
-                title="Список сотрудников"
+                title={title}
                 data={employers}
                 header={header}
             />

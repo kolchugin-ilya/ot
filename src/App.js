@@ -11,6 +11,7 @@ import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
 import {setLoading, setSession} from "./store/actions/login-actions";
 import Login from "./layout/Pages/Login/Login";
+import AddEmployer from "./layout/Pages/Employers/AddEmployer";
 
 
 const App = () => {
@@ -66,9 +67,8 @@ const App = () => {
                                 <Route exact path="/">
                                     main
                                 </Route>
-                                <Route exact path="/employers">
-                                    <Employers/>
-                                </Route>
+                                <Route exact path="/employers" component={Employers}/>
+                                <Route exact path="/employers/add" component={AddEmployer}/>
                                 <Route exact path="/position">
                                     positions
                                 </Route>

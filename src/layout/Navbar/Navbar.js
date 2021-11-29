@@ -25,8 +25,8 @@ const MyNav = () => {
         <div className={styles.list}>
             <ul>
                 <li>Справочники</li>
-                <li><Link to="employers">Список сотрудников</Link></li>
-                <li><Link to="position">Должность</Link></li>
+                <li><Link to="/employers">Список сотрудников</Link></li>
+                <li><Link to="/position">Должность</Link></li>
                 <li><Link to="tip_pers">Тип персонала</Link></li>
                 <li><Link to="vid_zanyatosti">Вид занятости</Link></li>
                 <li><Link to="podr">Подразделения</Link></li>

@@ -6,7 +6,7 @@ import {setCloseButton} from "../../store/actions/modal-actions";
 const localization = {
     pagination: {
         labelDisplayedRows: '{from}-{to} из {count}',
-        labelRowsSelect: 'строк'
+        labelRowsSelect: 'записей'
     },
     toolbar: {
         searchTooltip: 'Поиск',
@@ -32,11 +32,12 @@ const MyTable = ({data, header, title}) => {
 
     return (
         <div style={{width: '100%'}}>
+            <p>{title}</p>
             <MaterialTable
                 localization={localization}
                 columns={header}
                 data={data}
-                title={<div style={{display: "flex"}}><p>{title}</p><button>button</button></div>}
+                title={""}
             />
         </div>
     );

@@ -7,3 +7,13 @@ export function setEmployers(employers) {
         }
     }
 }
+
+export function setNewEmployer(param, value) {
+    return (dispatch) => {
+        try {
+            dispatch({type: `${param}`, [param]: value})
+        } catch (e) {
+            console.log(e)
+        }
+    }
+}
