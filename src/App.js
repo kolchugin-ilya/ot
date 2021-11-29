@@ -5,7 +5,7 @@ import Employers from "./layout/Pages/Employers/Employers";
 import Navbar from "./layout/Navbar/Navbar";
 import Header from "./layout/Header/Header";
 import Footer from "./layout/Footer/Footer";
-import Loading from "./layout/Pages/Loading/Loading";
+import Loading from "./components/Loading/Loading";
 import PageNotFound from "./layout/Pages/PageNotFound/PageNotFound";
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";

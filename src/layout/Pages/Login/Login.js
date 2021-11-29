@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './Login.module.css'
 import logo from '../../../components/Img/logo4.png';
 import {Text, TextInput} from "grommet";
@@ -34,6 +34,10 @@ const Login = () => {
                 console.log("check login error12123", error);
             });
     }
+
+    useEffect(() => {
+        dispatch(setLogin())
+    },[])
 
     return (
         <div className={styles.container}>
@@ -82,7 +86,7 @@ const Login = () => {
                     />
                     {
                         error &&
-                        <div className={styles.message}>{error.message}</div>    
+                        <div className={styles.message}>{error.message}</div>
                     }
                 </div>
             </form>
