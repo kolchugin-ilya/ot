@@ -11,60 +11,56 @@ import {Link} from "react-router-dom";
 const Employers = () => {
     const {employers} = useSelector(state => state.dataReducer)
     const dispatch = useDispatch()
-    const header = [
-        {title: '', field: 'icons'},
-        {title: 'Фамилия', field: 'LAST_NAME'},
-        {title: 'Имя', field: 'LAST_NAME'},
-        {title: 'Отчество', field: 'OTC'},
-        {title: 'Дата рождения', field: 'BIRTHDAY', type: 'date'},
-        {title: 'Должность', field: 'POSITION'},
-        {title: 'Подразделение', field: 'PODR_ID'}
-    ]
-    const title = (
-        <div className={styles.title}>
-            <p>Список сотрудников</p>
-            <Link to="/employers/add">
-                <button>+ Добавить</button>
-            </Link>
-        </div>
-    )
-    const readData = () => {
+    // Выгрузка всех сотрудников
+    useEffect(() => {
         axios.post("http://localhost:3001/read", {
             table: "EMPLOYERS",
-            columns: "ID, LAST_NAME, FIRST_NAME, OTC, BIRTHDAY, POSITION, PODR_ID"
+            columns: "ID, LAST_NAME, FIRST_NAME, OTC, BIRTHDAY, POSITION, PODR_ID",
+            condition: ""
         })
             .then(response => {
                 let employers = [];
+                /* Идём по массиву сотрудников и каждому добавляем
+                 кнопки Редактировать и Удалить */
                 response.data.result.map(emp => {
+                    let pathEdit = "/employers/edit?id=" + emp.ID;
                     employers.push(Object.assign({
                         icons:
                             <div style={{display: "flex"}}>
-                                <Button icon={<Edit size="35x" color="#74cf70"/>}
-                                        onClick={() =>
-                                            alert("edit" + emp.ID)}/>
+                                <Link to={pathEdit}>
+                                    <Button icon={<Edit size="35x" color="#74cf70"/>}/>
+                                </Link>
                                 <Button icon={<Trash size="35x" color="#f76f57"/>}
-                                        onClick={() =>
-                                            alert("delete")}/>
+                                        onClick={() => alert("delete " + emp.ID)}/>
                             </div>
                     }, emp))
                 })
+                // Изменяем состояние массива сотрудников
                 dispatch(setEmployers(employers))
             })
             .catch(error => {
                 console.log("check login error", error);
             });
-    }
-
-    useEffect(() => {
-        readData();
     }, [])
-
     return (
         <>
             <MyTable
-                title={title}
+                title={<div className={styles.title}>
+                    <p>Список сотрудников</p>
+                    <Link to="/employers/add">
+                        <button>+ Добавить</button>
+                    </Link>
+                </div>}
                 data={employers}
-                header={header}
+                header={[
+                    {title: '', field: 'icons'},
+                    {title: 'Фамилия', field: 'LAST_NAME'},
+                    {title: 'Имя', field: 'FIRST_NAME'},
+                    {title: 'Отчество', field: 'OTC'},
+                    {title: 'Дата рождения', field: 'BIRTHDAY', type: 'date'},
+                    {title: 'Должность', field: 'POSITION'},
+                    {title: 'Подразделение', field: 'PODR_ID'}
+                ]}
             />
         </>
     );

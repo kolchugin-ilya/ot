@@ -8,6 +8,16 @@ export function setEmployers(employers) {
     }
 }
 
+export function setEditEmployer(currentEmployer) {
+    return (dispatch) => {
+        try {
+            dispatch({type: "currentEmployer", currentEmployer: currentEmployer})
+        } catch (e) {
+            console.log(e)
+        }
+    }
+}
+
 export function setNewEmployer(param, value) {
     return (dispatch) => {
         try {

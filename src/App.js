@@ -12,6 +12,7 @@ import axios from "axios";
 import {setLoading, setSession} from "./store/actions/login-actions";
 import Login from "./layout/Pages/Login/Login";
 import AddEmployer from "./layout/Pages/Employers/AddEmployer";
+import EditEmployer from "./layout/Pages/Employers/EditEmployer";
 
 
 const App = () => {
@@ -69,6 +70,7 @@ const App = () => {
                                 </Route>
                                 <Route exact path="/employers" component={Employers}/>
                                 <Route exact path="/employers/add" component={AddEmployer}/>
+                                <Route exact path="/employers/edit" component={EditEmployer}/>
                                 <Route exact path="/position">
                                     positions
                                 </Route>
