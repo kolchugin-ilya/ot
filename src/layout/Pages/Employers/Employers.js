@@ -11,8 +11,21 @@ import {Link} from "react-router-dom";
 const Employers = () => {
     const {employers} = useSelector(state => state.dataReducer)
     const dispatch = useDispatch()
+    // Удаление сотрудника
+    const deleteEmployer = (id) => {
+        axios.post("http://localhost:3001/delete", {
+            id: id,
+            table: "EMPLOYERS"
+        })
+            .then(response => {
+                readEmployers();
+            })
+            .catch(error => {
+                console.log("check login error", error);
+            });
+    }
     // Выгрузка всех сотрудников
-    useEffect(() => {
+    const readEmployers = () => {
         axios.post("http://localhost:3001/read", {
             table: "EMPLOYERS",
             columns: "ID, LAST_NAME, FIRST_NAME, OTC, BIRTHDAY, POSITION, PODR_ID",
@@ -31,7 +44,7 @@ const Employers = () => {
                                     <Button icon={<Edit size="35x" color="#74cf70"/>}/>
                                 </Link>
                                 <Button icon={<Trash size="35x" color="#f76f57"/>}
-                                        onClick={() => alert("delete " + emp.ID)}/>
+                                        onClick={() => deleteEmployer(emp.ID)}/>
                             </div>
                     }, emp))
                 })
@@ -41,6 +54,9 @@ const Employers = () => {
             .catch(error => {
                 console.log("check login error", error);
             });
+    }
+    useEffect(() => {
+        readEmployers();
     }, [])
     return (
         <>
