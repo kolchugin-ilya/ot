@@ -1,6 +1,11 @@
 const initialState = {
     employers: [],
-    currentEmployer: ""
+    position: [],
+    error: {
+        message: "",
+        error: false,
+        style: {}
+    },
 }
 const newInitialState = {
     last_name: "",
@@ -10,20 +15,24 @@ const newInitialState = {
     position: "",
     employment_date: "",
     snils: "",
-    birthday: ""
+    birthday: "",
+    namePosition: ""
 }
 
+// Массивы при загрузке страниц и ошибка если массив не собран
 export const dataReducer = (state = initialState, action) => {
     switch (action.type) {
         case "employers":
             return {...state, employers: action.employers};
-        case "currentEmployer":
-            return {...state, currentEmployer: action.currentEmployer};
+        case "position":
+            return {...state, position: action.position};
+        case "error":
+            return {...state, error: action.error};
         default:
             return state;
     }
 }
-
+// Изменение/добавление данных
 export const newDataReducer = (state = newInitialState, action) => {
     switch (action.type) {
         case "last_name":
@@ -42,6 +51,8 @@ export const newDataReducer = (state = newInitialState, action) => {
             return {...state, snils: action.snils};
         case "birthday":
             return {...state, birthday: action.birthday};
+        case "namePosition":
+            return {...state, namePosition: action.namePosition};
         default:
             return state;
     }

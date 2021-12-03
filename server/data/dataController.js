@@ -2,7 +2,6 @@ const getConnection = require('../connection/connection');
 const mysql = require("mysql");
 
 class dataController {
-
     async readData(req, res) {
         try {
             const {table, columns, condition} = req.body;
@@ -16,6 +15,8 @@ class dataController {
                     if (err) {
                         res.status(400).json({message: "Ошибка в readData"})
                     }
+                    if (result.length === 0)
+                        res.status(400).json({message: "Массив пустой."})
                     res.json({result: result})
                 })
             })

@@ -26,7 +26,7 @@ class authController {
                     }
                     if (result.length !== 0) {
                         connection.release()
-                        res.status(409).json({message: "Пользователь с таким логином уже существует"})
+                        res.status(400).json({message: "Пользователь с таким логином уже существует"})
                     } else {
                         await connection.query(insert_query, (err, result) => {
                             connection.release()

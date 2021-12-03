@@ -3,7 +3,7 @@ import MyTable from "../../../components/MyTable/MyTable";
 import styles from './Employers.module.css';
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {setEmployers} from "../../../store/actions/data-actions";
+import {setArrays} from "../../../store/actions/data-actions";
 import {Edit, Trash} from "grommet-icons";
 import {Button} from "grommet";
 import {Link} from "react-router-dom";
@@ -44,12 +44,16 @@ const Employers = () => {
                                     <Button icon={<Edit size="35x" color="#74cf70"/>}/>
                                 </Link>
                                 <Button icon={<Trash size="35x" color="#f76f57"/>}
-                                        onClick={() => deleteEmployer(emp.ID)}/>
+                                        onClick={() => {
+                                            if (window.confirm("Удалить сотрудника?"))
+                                                deleteEmployer(emp.ID)
+                                        }
+                                        }/>
                             </div>
                     }, emp))
                 })
                 // Изменяем состояние массива сотрудников
-                dispatch(setEmployers(employers))
+                dispatch(setArrays("employers", employers))
             })
             .catch(error => {
                 console.log("check login error", error);

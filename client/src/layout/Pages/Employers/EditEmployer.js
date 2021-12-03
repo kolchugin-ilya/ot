@@ -3,11 +3,12 @@ import {useLocation} from "react-router-dom";
 import styles from "./Employers.module.css";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {setNewEmployer} from "../../../store/actions/data-actions";
+import {setError, setNewData} from "../../../store/actions/data-actions";
 import {dataExport} from "./vars";
 
 const EditEmployer = () => {
     const state = useSelector(state => state.newDataReducer)
+    const {error} = useSelector(state => state.dataReducer)
     const dispatch = useDispatch()
     // Для динамического формирования формы
     const data = dataExport(state.first_name, state.last_name, state.otc, state.tab_number, state.position, state.employment_date, state.snils, state.birthday)
@@ -15,7 +16,7 @@ const EditEmployer = () => {
     /* Изменяем состояние соответствующего значения в инпуте */
     const handleChange = (event) => {
         if (event.target.value.trim() !== "")
-            dispatch(setNewEmployer(event.target.name, event.target.value))
+            dispatch(setNewData(event.target.name, event.target.value))
     }
     // Сабмит формы, передаём айди, название таблицы и изменяемые поля
     const submitForm = (event) => {
@@ -29,34 +30,42 @@ const EditEmployer = () => {
         })
             .then(response => {
                 console.log(response)
-                window.location.reload();
+                window.location = "/employers";
             })
             .catch(error => {
-                console.log("check login error", error);
+                console.log("check update error", error);
             });
     }
     // Выгрузка соответствующего сотрудника
     useEffect(() => {
         axios.post("http://localhost:3001/read", {
             table: "EMPLOYERS",
-            columns: "LAST_NAME, FIRST_NAME, OTC, TAB_NUMBER, POSITION, SNILS, EMPLOYMENT_DATE, BIRTHDAY",
+            columns: "LAST_NAME, FIRST_NAME, OTC, TAB_NUMBER, SNILS",
             condition: "AND ID=" + id
-        })
+        },{withCredentials: true})
             .then(response => {
                 // Заполнение инпутов
                 Object.entries(response.data.result[0]).map(emp => {
-                        dispatch(setNewEmployer(emp[0].toLowerCase(), emp[1]))
+                    // console.log("1: " + emp[0].toLowerCase() + " 2: " + emp[1])
+                    //     dispatch(setNewData(emp[0].toLowerCase(), emp[1]))
                     }
                 )
             })
             .catch(error => {
-                console.log("check login error", error);
+                dispatch(setError(
+                    {
+                        message: error.response.data.message,
+                        error: true
+                    }))
+                window.setTimeout(
+                    window.location = "/employers"
+                    , 3000);
             });
     }, [])
-
     return (
         id ?
-            <form className={styles.container} onSubmit={(event) => submitForm(event)}>
+            !error.error ?
+            (<form className={styles.container} onSubmit={(event) => submitForm(event)}>
                 <p className={styles.titleAdd}>Изменение сотрудника</p>
                 {
                     data &&
@@ -69,11 +78,16 @@ const EditEmployer = () => {
                         </div>
                     })
                 }
-
                 <button type="submit">Сохранить</button>
-            </form>
+            </form>)
+                :
+                <div className={styles.container}>
+                    {
+                        error.message
+                    }
+                </div>
             :
-            <div>
+            <div className={styles.container}>
                 Некорректный ID сотрудника!
             </div>
 

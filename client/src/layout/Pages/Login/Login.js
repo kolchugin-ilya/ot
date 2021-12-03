@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {setError, setLogin} from "../../../store/actions/login-actions";
 
 const Login = () => {
-    const {name, password, userInfo, error} = useSelector(state => state.loginReducer)
+    const {name, password, error} = useSelector(state => state.loginReducer)
     const dispatch = useDispatch()
 
     function handleSubmit(event) {
@@ -31,7 +31,7 @@ const Login = () => {
                         error: true,
                         style: {borderColor: "red"}
                     }))
-                console.log("check login error12123", error);
+                console.log("check login error", error);
             });
     }
 

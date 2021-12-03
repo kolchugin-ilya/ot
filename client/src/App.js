@@ -7,12 +7,15 @@ import Header from "./layout/Header/Header";
 import Footer from "./layout/Footer/Footer";
 import Loading from "./components/Loading/Loading";
 import PageNotFound from "./layout/Pages/PageNotFound/PageNotFound";
+import Position from "./layout/Pages/Position/Position";
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
 import {setLoading, setSession} from "./store/actions/login-actions";
 import Login from "./layout/Pages/Login/Login";
 import AddEmployer from "./layout/Pages/Employers/AddEmployer";
 import EditEmployer from "./layout/Pages/Employers/EditEmployer";
+import AddPosition from "./layout/Pages/Position/AddPosition";
+import EditPosition from "./layout/Pages/Position/EditPosition";
 
 
 const App = () => {
@@ -53,6 +56,9 @@ const App = () => {
             }
         </Route>
     }
+    const d = () => {
+        return <div>12312312321</div>
+    }
     return (
         (loading)
             ?
@@ -71,9 +77,9 @@ const App = () => {
                                 <Route exact path="/employers" component={Employers}/>
                                 <Route exact path="/employers/add" component={AddEmployer}/>
                                 <Route exact path="/employers/edit" component={EditEmployer}/>
-                                <Route exact path="/position">
-                                    positions
-                                </Route>
+                                <Route exact path="/position" component={Position} />
+                                <Route exact path="/position/add" component={AddPosition}/>
+                                <Route exact path="/position/edit" component={EditPosition}/>
                                 <Route>
                                     <PageNotFound/>
                                 </Route>
