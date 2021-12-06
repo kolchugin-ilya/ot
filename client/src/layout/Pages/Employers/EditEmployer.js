@@ -3,20 +3,22 @@ import {useLocation} from "react-router-dom";
 import styles from "./Employers.module.css";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {setError, setNewData} from "../../../store/actions/data-actions";
+import {setArrays, setChangeEmployers, setError} from "../../../store/actions/data-actions";
 import {dataExport} from "./vars";
+import useSurvey from "../../../hooks/customHooks";
 
 const EditEmployer = () => {
-    const state = useSelector(state => state.newDataReducer)
+    const {fetchPositions} = useSurvey()
+    const state = useSelector(state => state.changeDataReducer)
+    const {position} = useSelector(state => state.dataReducer)
     const {error} = useSelector(state => state.dataReducer)
     const dispatch = useDispatch()
     // Для динамического формирования формы
-    const data = dataExport(state.first_name, state.last_name, state.otc, state.tab_number, state.position, state.employment_date, state.snils, state.birthday)
+    const data = dataExport(state.first_name, state.last_name, state.otc, state.tab_number, state.position, position, state.employment_date, state.snils, state.birthday)
     const id = new URLSearchParams(useLocation().search).get("id");
     /* Изменяем состояние соответствующего значения в инпуте */
     const handleChange = (event) => {
-        if (event.target.value.trim() !== "")
-            dispatch(setNewData(event.target.name, event.target.value))
+        dispatch(setChangeEmployers({...state, [event.target.name]: event.target.value}))
     }
     // Сабмит формы, передаём айди, название таблицы и изменяемые поля
     const submitForm = (event) => {
@@ -29,7 +31,6 @@ const EditEmployer = () => {
                       EMPLOYMENT_DATE='${state.employment_date}', BIRTHDAY='${state.birthday}', ACTIVE_SIGN=1`
         })
             .then(response => {
-                console.log(response)
                 window.location = "/employers";
             })
             .catch(error => {
@@ -38,18 +39,35 @@ const EditEmployer = () => {
     }
     // Выгрузка соответствующего сотрудника
     useEffect(() => {
+        // axios.post("http://localhost:3001/read", {
+        //     table: "POSITIONS",
+        //     columns: "ID, NAME",
+        //     condition: ""
+        // })
+        //     .then(response => {
+        //         dispatch(setArrays("position", response.data.result))
+        //     })
+        //     .catch(error => {
+        //         console.log("check pos error", error);
+        //     });
+        fetchPositions();
         axios.post("http://localhost:3001/read", {
             table: "EMPLOYERS",
-            columns: "LAST_NAME, FIRST_NAME, OTC, TAB_NUMBER, SNILS",
+            columns: "*",
             condition: "AND ID=" + id
-        },{withCredentials: true})
+        }, {withCredentials: true})
             .then(response => {
-                // Заполнение инпутов
-                Object.entries(response.data.result[0]).map(emp => {
-                    // console.log("1: " + emp[0].toLowerCase() + " 2: " + emp[1])
-                    //     dispatch(setNewData(emp[0].toLowerCase(), emp[1]))
-                    }
-                )
+                let employers = response.data.result[0];
+                dispatch(setChangeEmployers({
+                    first_name: employers.FIRST_NAME,
+                    last_name: employers.LAST_NAME,
+                    otc: employers.OTC,
+                    tab_number: employers.TAB_NUMBER,
+                    position: employers.POSITION,
+                    employment_date: employers.EMPLOYMENT_DATE,
+                    snils: employers.SNILS,
+                    birthday: employers.BIRTHDAY
+                }))
             })
             .catch(error => {
                 dispatch(setError(
@@ -59,27 +77,38 @@ const EditEmployer = () => {
                     }))
                 window.setTimeout(
                     window.location = "/employers"
-                    , 3000);
+                    , 5000);
             });
     }, [])
     return (
         id ?
             !error.error ?
-            (<form className={styles.container} onSubmit={(event) => submitForm(event)}>
-                <p className={styles.titleAdd}>Изменение сотрудника</p>
-                {
-                    data &&
-                    data.map(data => {
-                        return <div key={data.name} className={styles.row}>
-                            <p>{data.label}</p>
-                            <input onChange={(event) => handleChange(event)} required name={data.name}
-                                   value={data.value} type={data.type}
-                            />
-                        </div>
-                    })
-                }
-                <button type="submit">Сохранить</button>
-            </form>)
+                (<form className={styles.container} onSubmit={(event) => submitForm(event)}>
+                    <p className={styles.titleAdd}>Изменение сотрудника</p>
+                    {
+                        data &&
+                        data.map(data => {
+                            return <div key={data.name} className={styles.row}>
+                                <p>{data.label}</p>
+                                {
+                                    (data.type === "select") ?
+                                        <select name={data.name} required onChange={(event) => handleChange(event)}>
+                                            {
+                                                data.options.map(pos => {
+                                                    return <option selected={(pos.ID===data.value)} value={pos.ID}>{pos.NAME}</option>
+                                                })
+                                            }
+                                        </select>
+                                        :
+                                        <input onChange={(event) => handleChange(event)} required name={data.name}
+                                               value={data.value} type={data.type}
+                                        />
+                                }
+                            </div>
+                        })
+                    }
+                    <button type="submit">Сохранить</button>
+                </form>)
                 :
                 <div className={styles.container}>
                     {
@@ -88,7 +117,7 @@ const EditEmployer = () => {
                 </div>
             :
             <div className={styles.container}>
-                Некорректный ID сотрудника!
+                Некорректный параметр ID!
             </div>
 
     );

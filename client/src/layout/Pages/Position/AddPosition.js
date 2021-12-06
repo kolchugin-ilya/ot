@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import styles from './Position.module.css';
 import {useDispatch, useSelector} from "react-redux";
-import {setNewData} from "../../../store/actions/data-actions";
 import axios from "axios";
 
 const AddPosition = () => {
@@ -23,14 +22,14 @@ const AddPosition = () => {
             });
     }
     useEffect(() => {
-            dispatch(setNewData("namePosition", ""))
+            // dispatch(setNewData("namePosition", ""))
     }, [])
     return (
         <form className={styles.container} onSubmit={(event) => submitForm(event)}>
             <p className={styles.titleAdd}>Добавление должности</p>
                      <div key={"123"} className={styles.row}>
                         <p>Должность</p>
-                        <input onChange={(event) => dispatch(setNewData("namePosition", event.target.value))} required name="name" value={namePosition} type="text"
+                        {/*<input onChange={(event) => dispatch(setNewData("namePosition", event.target.value))} required name="name" value={namePosition} type="text"*/}
                         />
                     </div>
             <button type="submit">Сохранить</button>

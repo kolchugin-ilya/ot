@@ -15,11 +15,33 @@ export function setArrays(table, payload) {
         }
     }
 }
+
 // Изменение/добавление данных
-export function setNewData(param, value) {
+// export function setNewData(param, value) {
+//     return (dispatch) => {
+//         try {
+//             dispatch({type: `${param}`, [param]: value})
+//         } catch (e) {
+//             console.log(e)
+//         }
+//     }
+// }
+
+// Изменение/добавление сотрудников
+export function setChangeEmployers(payload) {
     return (dispatch) => {
         try {
-            dispatch({type: `${param}`, [param]: value})
+            dispatch({
+                type: "changeEmployers",
+                first_name: payload.first_name,
+                last_name: payload.last_name,
+                otc: payload.otc,
+                tab_number: payload.tab_number,
+                position: payload.position,
+                employment_date: payload.employment_date,
+                snils: payload.snils,
+                birthday: payload.birthday
+            })
         } catch (e) {
             console.log(e)
         }

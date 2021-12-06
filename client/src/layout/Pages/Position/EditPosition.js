@@ -3,7 +3,7 @@ import {useLocation} from "react-router-dom";
 import styles from "./Position.module.css";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {setError, setNewData} from "../../../store/actions/data-actions";
+import {setError} from "../../../store/actions/data-actions";
 
 const EditPosition = () => {
     const {namePosition} = useSelector(state => state.newDataReducer)
@@ -11,8 +11,8 @@ const EditPosition = () => {
     const dispatch = useDispatch()
     const id = new URLSearchParams(useLocation().search).get("id");
     const handleChange = (event) => {
-        if (event.target.value.trim() !== "")
-            dispatch(setNewData("namePosition", event.target.value))
+        // if (event.target.value.trim() !== "")
+        //     dispatch(setNewData("namePosition", event.target.value))
     }
     const submitForm = (event) => {
         event.preventDefault();
