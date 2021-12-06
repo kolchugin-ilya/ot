@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Redirect, Route, Switch} from "react-router-dom";
+import {Redirect, Route, Switch, useLocation} from "react-router-dom";
 import styles from './App.module.css'
 import Employers from "./layout/Pages/Employers/Employers";
 import Navbar from "./layout/Navbar/Navbar";
@@ -20,22 +20,22 @@ import useRead from "./hooks/useRead";
 import {setChangeBRs} from "./store/actions/data-actions";
 
 
-
 const App = () => {
     const {loading, userInfo} = useSelector(state => state.loginReducer)
     const {position} = useSelector(state => state.dataReducer)
     const {namePosition} = useSelector(state => state.changeDataReducer)
     const {fetchPositionsBr} = useRead()
+    const id = new URLSearchParams(useLocation().search).get("id");
+    const {fetchPosition} = useRead()
     const dispatch = useDispatch()
 
     const clearFieldsPosition = () => {
         dispatch(setChangeBRs('changePositions', {namePosition: ""}))
     }
-
     const onChangePosition = (event) => {
         dispatch(setChangeBRs('changePositions', {namePosition: event.target.value}))
     }
-    const submitFormPosition = (event) => {
+    const formPositionAdd = (event) => {
         event.preventDefault();
         axios.post("http://localhost:3001/create", {
             table: "POSITIONS",
@@ -48,6 +48,18 @@ const App = () => {
             })
             .catch(error => {
                 console.log("check position error", error);
+            });
+    }
+    const formPositionEdit = (event) => {
+        event.preventDefault();
+        axios.post("http://localhost:3001/update", {
+            id: id,
+            table: "POSITIONS",
+            columns: `NAME='${namePosition}'`
+        })
+            .then(() => window.location = "/position")
+            .catch(error => {
+                console.log("check update error", error);
             });
     }
 
@@ -118,14 +130,24 @@ const App = () => {
                                 <Route exact path="/position/add">
                                     <AddPosition
                                         field={namePosition}
-                                        submitForm={submitFormPosition}
+                                        submitForm={formPositionAdd}
                                         clearFields={clearFieldsPosition}
                                         onChange={onChangePosition}
                                         formTitle='Добавление должности'
                                         label='Должность'
                                     />
                                 </Route>
-                                <Route exact path="/position/edit" component={EditPosition}/>
+                                <Route exact path="/position/edit">
+                                    <EditPosition
+                                        field={namePosition}
+                                        submitForm={formPositionEdit}
+                                        onChange={onChangePosition}
+                                        fetchBr={() =>fetchPosition(id)}
+                                        id={id}
+                                        formTitle='Изменение должности'
+                                        label='Должность'
+                                    />
+                                </Route>
                                 <Route>
                                     <PageNotFound/>
                                 </Route>
