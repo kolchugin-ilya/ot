@@ -35,12 +35,9 @@ export const dataReducer = (state = initialState, action) => {
 export const changeDataReducer = (state = newInitialState, action) => {
     switch (action.type) {
         case "changeEmployers":
-            return {
-                ...state, last_name: action.last_name,
-                first_name: action.first_name, otc: action.otc, tab_number: action.tab_number,
-                position: action.position, employment_date: action.employment_date, snils: action.snils,
-                birthday: action.birthday
-            }
+            return {...state, ...action}
+        case "changePositions":
+            return {...state, namePosition: action.namePosition}
         default:
             return state;
     }

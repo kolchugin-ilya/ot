@@ -3,24 +3,20 @@ import {useLocation} from "react-router-dom";
 import styles from "./Employers.module.css";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {setArrays, setChangeEmployers, setError} from "../../../store/actions/data-actions";
+import {setChangeEmployers} from "../../../store/actions/data-actions";
 import {dataExport} from "./vars";
-import useSurvey from "../../../hooks/customHooks";
+import useRead from "../../../hooks/useRead";
 
 const EditEmployer = () => {
-    const {fetchPositions} = useSurvey()
+    const {fetchPositions, fetchEmployer} = useRead()
     const state = useSelector(state => state.changeDataReducer)
-    const {position} = useSelector(state => state.dataReducer)
-    const {error} = useSelector(state => state.dataReducer)
+    const {position, error} = useSelector(state => state.dataReducer)
     const dispatch = useDispatch()
-    // Для динамического формирования формы
-    const data = dataExport(state.first_name, state.last_name, state.otc, state.tab_number, state.position, position, state.employment_date, state.snils, state.birthday)
+    const data = dataExport(state, {position})
     const id = new URLSearchParams(useLocation().search).get("id");
-    /* Изменяем состояние соответствующего значения в инпуте */
     const handleChange = (event) => {
         dispatch(setChangeEmployers({...state, [event.target.name]: event.target.value}))
     }
-    // Сабмит формы, передаём айди, название таблицы и изменяемые поля
     const submitForm = (event) => {
         event.preventDefault();
         axios.post("http://localhost:3001/update", {
@@ -37,48 +33,9 @@ const EditEmployer = () => {
                 console.log("check update error", error);
             });
     }
-    // Выгрузка соответствующего сотрудника
     useEffect(() => {
-        // axios.post("http://localhost:3001/read", {
-        //     table: "POSITIONS",
-        //     columns: "ID, NAME",
-        //     condition: ""
-        // })
-        //     .then(response => {
-        //         dispatch(setArrays("position", response.data.result))
-        //     })
-        //     .catch(error => {
-        //         console.log("check pos error", error);
-        //     });
         fetchPositions();
-        axios.post("http://localhost:3001/read", {
-            table: "EMPLOYERS",
-            columns: "*",
-            condition: "AND ID=" + id
-        }, {withCredentials: true})
-            .then(response => {
-                let employers = response.data.result[0];
-                dispatch(setChangeEmployers({
-                    first_name: employers.FIRST_NAME,
-                    last_name: employers.LAST_NAME,
-                    otc: employers.OTC,
-                    tab_number: employers.TAB_NUMBER,
-                    position: employers.POSITION,
-                    employment_date: employers.EMPLOYMENT_DATE,
-                    snils: employers.SNILS,
-                    birthday: employers.BIRTHDAY
-                }))
-            })
-            .catch(error => {
-                dispatch(setError(
-                    {
-                        message: error.response.data.message,
-                        error: true
-                    }))
-                window.setTimeout(
-                    window.location = "/employers"
-                    , 5000);
-            });
+        fetchEmployer(id)
     }, [])
     return (
         id ?

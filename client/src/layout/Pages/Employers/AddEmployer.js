@@ -1,22 +1,19 @@
 import React, {useEffect} from 'react';
 import styles from './Employers.module.css';
 import {useDispatch, useSelector} from "react-redux";
-import {setArrays} from "../../../store/actions/data-actions";
+import {setChangeEmployers} from "../../../store/actions/data-actions";
 import axios from "axios";
 import {dataExport} from "./vars";
-import {Link} from "react-router-dom";
-import {Button} from "grommet";
-import {Edit, Trash} from "grommet-icons";
-import {changeDataReducer} from "../../../store/reducers/dataReducer";
+import useRead from "../../../hooks/useRead";
 
 const AddEmployer = () => {
+    const {fetchPositions} = useRead()
     const {position} = useSelector(state => state.dataReducer)
     const state = useSelector(state => state.changeDataReducer)
     const dispatch = useDispatch();
-    const data = dataExport(state.first_name, state.last_name, state.otc, state.tab_number, position, state.employment_date, state.snils, state.birthday)
+    const data = dataExport(state, {position})
     const handleChange = (event) => {
-        // if (event.target.value.trim() !== "")
-        // dispatch(setNewData(event.target.name, event.target.value))
+        dispatch(setChangeEmployers({...state, [event.target.name]: event.target.value}))
     }
     // Создание нового сотрудника
     const submitForm = (event) => {
@@ -36,33 +33,33 @@ const AddEmployer = () => {
     }
     useEffect(() => {
         /* При каждой загрузке страницы обнуляем состояние */
-        // Object.entries(state).map(emp => {
-        // dispatch(setNewData(emp[0], ""))
-        // })
-        axios.post("http://localhost:3001/read", {
-            table: "POSITIONS",
-            columns: "ID, NAME",
-            condition: ""
-        })
-            .then(response => {
-                dispatch(setArrays("position", response.data.result))
-            })
-            .catch(error => {
-                console.log("check pos error", error);
-            });
+        dispatch(setChangeEmployers({
+                ...state,
+                last_name: "",
+                first_name: "",
+                otc: "",
+                tab_number: "",
+                position: "",
+                snils: "",
+                employment_date: "",
+                birthday: ""
+            }
+        ))
+        fetchPositions()
     }, [])
     return (
         <form className={styles.container} onSubmit={(event) => submitForm(event)}>
             <p className={styles.titleAdd}>Добавление сотрудника</p>
             {
+                data &&
                 data.map(data => {
                     return <div key={data.name} className={styles.row}>
                         <p>{data.label}</p>
                         {
                             (data.type === "select") ?
-                                <select name={data.name} required>
+                                <select name={data.name} required onChange={(event) => handleChange(event)}>
                                     {
-                                        data.value.map(pos => {
+                                        data.options.map(pos => {
                                             return <option value={pos.ID}>{pos.NAME}</option>
                                         })
                                     }
