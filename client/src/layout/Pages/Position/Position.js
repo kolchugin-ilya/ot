@@ -1,31 +1,27 @@
 import React, {useEffect} from 'react';
 import MyTable from "../../../components/MyTable/MyTable";
 import styles from './Position.module.css';
-import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
-import useRead from "../../../hooks/useRead";
 
-const Position = () => {
-    const {fetchPositionsBr} = useRead()
-    const {position} = useSelector(state => state.dataReducer)
+const Position = ({data, header, title, link, fetchBr}) => {
     useEffect(() => {
-        fetchPositionsBr()
+        fetchBr()
     }, [])
     return (
         <>
             <MyTable
                 title={
                     <div className={styles.title}>
-                        <p>Должности</p>
-                        <Link to="/position/add">
+                        <p>{title}</p>
+                        <Link to={link}>
                             <button>+ Добавить</button>
                         </Link>
                     </div>
                 }
-                data={position}
+                data={data}
                 header={[
                     {title: '', field: 'icons'},
-                    {title: 'Должность', field: 'NAME'},
+                    {title: `${header}`, field: 'NAME'},
                 ]}
             />
         </>
