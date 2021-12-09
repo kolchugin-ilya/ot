@@ -1,6 +1,8 @@
 const initialState = {
     employers: [],
     position: [],
+    type_employers: [],
+    podr: [],
     error: {
         message: "",
         error: false,
@@ -12,10 +14,11 @@ const newInitialState = {
     first_name: "",
     otc: "",
     tab_number: "",
-    position: "",
+    position: 1,
     employment_date: "",
     snils: "",
     birthday: "",
+    podr: 1,
     namePosition: ""
 }
 // Массивы при загрузке страниц и ошибка если массив не собран
@@ -25,6 +28,10 @@ export const dataReducer = (state = initialState, action) => {
             return {...state, employers: action.employers};
         case "position":
             return {...state, position: action.position};
+        case "type_employers":
+            return {...state, type_employers: action.type_employers};
+        case "podr":
+            return {...state, podr: action.podr};
         case "error":
             return {...state, error: action.error};
         default:

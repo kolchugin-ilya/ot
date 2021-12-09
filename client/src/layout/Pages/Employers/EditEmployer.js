@@ -8,11 +8,11 @@ import {dataExport} from "./vars";
 import useRead from "../../../hooks/useRead";
 
 const EditEmployer = () => {
-    const {fetchPositions, fetchEmployer} = useRead()
+    const {fetchPositions, fetchPodr, fetchEmployersById} = useRead()
     const state = useSelector(state => state.changeDataReducer)
-    const {position, error} = useSelector(state => state.dataReducer)
+    const {position, podr, error} = useSelector(state => state.dataReducer)
     const dispatch = useDispatch()
-    const data = dataExport(state, {position})
+    const data = dataExport(state, {position, podr})
     const id = new URLSearchParams(useLocation().search).get("id");
     const handleChange = (event) => {
         dispatch(setChangeEmployers({...state, [event.target.name]: event.target.value}))
@@ -24,7 +24,7 @@ const EditEmployer = () => {
             table: "EMPLOYERS",
             columns: `LAST_NAME='${state.last_name}', FIRST_NAME='${state.first_name}',OTC='${state.otc}',
                       TAB_NUMBER='${state.tab_number}', POSITION='${state.position}', SNILS='${state.snils}',
-                      EMPLOYMENT_DATE='${state.employment_date}', BIRTHDAY='${state.birthday}', ACTIVE_SIGN=1`
+                      EMPLOYMENT_DATE='${state.employment_date}', BIRTHDAY='${state.birthday}', PODR_ID='${state.podr}', ACTIVE_SIGN=1`
         })
             .then(response => {
                 window.location = "/employers";
@@ -35,7 +35,8 @@ const EditEmployer = () => {
     }
     useEffect(() => {
         fetchPositions();
-        fetchEmployer(id)
+        fetchPodr();
+        fetchEmployersById(id)
     }, [])
     return (
         id ?

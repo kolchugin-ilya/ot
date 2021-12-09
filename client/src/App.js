@@ -22,11 +22,10 @@ import {setChangeBRs} from "./store/actions/data-actions";
 
 const App = () => {
     const {loading, userInfo} = useSelector(state => state.loginReducer)
-    const {position} = useSelector(state => state.dataReducer)
+    const {position, podr, type_employers} = useSelector(state => state.dataReducer)
     const {namePosition} = useSelector(state => state.changeDataReducer)
-    const {fetchPositionsBr} = useRead()
+    const {fetchTypeEmployersBr, fetchPositionsBr, fetchPodrBr, fetchPositionById} = useRead()
     const id = new URLSearchParams(useLocation().search).get("id");
-    const {fetchPosition} = useRead()
     const dispatch = useDispatch()
 
     const clearFieldsPosition = () => {
@@ -142,10 +141,28 @@ const App = () => {
                                         field={namePosition}
                                         submitForm={formPositionEdit}
                                         onChange={onChangePosition}
-                                        fetchBr={() =>fetchPosition(id)}
+                                        fetchBr={() =>fetchPositionById(id)}
                                         id={id}
                                         formTitle='Изменение должности'
                                         label='Должность'
+                                    />
+                                </Route>
+                                <Route exact path="/type_employers">
+                                    <Position
+                                        data={type_employers}
+                                        title='Типы персонала'
+                                        header='Тип персонала'
+                                        link='/type_employers/add'
+                                        fetchBr={fetchTypeEmployersBr}
+                                    />
+                                </Route>
+                                <Route exact path="/podr">
+                                    <Position
+                                        data={podr}
+                                        title='Типы персонала'
+                                        header='Тип персонала'
+                                        link='/type_employers/add'
+                                        fetchBr={fetchPodrBr}
                                     />
                                 </Route>
                                 <Route>

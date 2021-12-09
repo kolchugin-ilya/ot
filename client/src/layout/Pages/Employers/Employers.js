@@ -29,8 +29,8 @@ const Employers = () => {
                     {title: 'Имя', field: 'FIRST_NAME'},
                     {title: 'Отчество', field: 'OTC'},
                     {title: 'Дата рождения', field: 'BIRTHDAY', type: 'date'},
-                    {title: 'Должность', field: 'POSITION'},
-                    {title: 'Подразделение', field: 'PODR_ID'}
+                    {title: 'Должность', field: 'POSITION_NAME'},
+                    {title: 'Подразделение', field: 'PODR_NAME'}
                 ]}
             />
         </>

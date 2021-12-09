@@ -11,11 +11,7 @@ const useRead = () => {
 
     return useMemo(() => ({
         fetchEmployers() {
-            axios.post("http://localhost:3001/read", {
-                table: "EMPLOYERS",
-                columns: "ID, LAST_NAME, FIRST_NAME, OTC, BIRTHDAY, POSITION, PODR_ID",
-                condition: ""
-            })
+            axios.post("http://localhost:3001/readEmployers")
                 .then(response => {
                     let employers = [];
                     /* Идём по массиву сотрудников и каждому добавляем
@@ -53,11 +49,9 @@ const useRead = () => {
                     console.log("check login error", error);
                 });
         },
-        fetchEmployer(id) {
-            axios.post("http://localhost:3001/read", {
-                table: "EMPLOYERS",
-                columns: "*",
-                condition: "AND ID=" + id
+        fetchEmployersById(id) {
+            axios.post("http://localhost:3001/readEmployersById", {
+                id: id
             }, {withCredentials: true})
                 .then(response => {
                     let employers = response.data.result[0];
@@ -94,6 +88,72 @@ const useRead = () => {
                 })
                 .catch(error => {
                     console.log("check pos error", error);
+                });
+        },
+        fetchTypeEmployers() {
+            axios.post("http://localhost:3001/read", {
+                table: "TYPE_EMPLOYERS",
+                columns: "ID, NAME",
+                condition: ""
+            })
+                .then(response => {
+                    dispatch(setArrays("type_employers", response.data.result))
+                })
+                .catch(error => {
+                    console.log("check type_emp error", error);
+                });
+        },
+        fetchPodr() {
+            axios.post("http://localhost:3001/read", {
+                table: "PODR",
+                columns: "ID, NAME",
+                condition: ""
+            })
+                .then(response => {
+                    dispatch(setArrays("podr", response.data.result))
+                })
+                .catch(error => {
+                    console.log("check podr error", error);
+                });
+        },
+        fetchPodrBr() {
+            axios.post("http://localhost:3001/read", {
+                table: "PODR",
+                columns: "ID, NAME",
+                condition: ""
+            })
+                .then(response => {
+                    let podr = [];
+                    response.data.result.map(pos => {
+                        let pathEdit = "/podr/edit?id=" + pos.ID;
+                        podr.push(Object.assign({
+                            icons:
+                                <div style={{display: "flex"}}>
+                                    <Link to={pathEdit}>
+                                        <Button icon={<Edit size="35x" color="#74cf70"/>}/>
+                                    </Link>
+                                    <Button icon={<Trash size="35x" color="#f76f57"/>}
+                                            onClick={() => {
+                                                if (window.confirm("Удалить подразделение?"))
+                                                    axios.post("http://localhost:3001/delete", {
+                                                        id: pos.ID,
+                                                        table: "PODR"
+                                                    })
+                                                        .then(response => {
+                                                            window.location.reload()
+                                                        })
+                                                        .catch(error => {
+                                                            console.log("check podr error", error);
+                                                        });
+                                            }
+                                            }/>
+                                </div>
+                        }, pos))
+                    })
+                    dispatch(setArrays("podr", podr))
+                })
+                .catch(error => {
+                    console.log("check podr error", error);
                 });
         },
         fetchPositionsBr() {
@@ -136,7 +196,47 @@ const useRead = () => {
                     console.log("check login error", error);
                 });
         },
-        fetchPosition(id) {
+        fetchTypeEmployersBr() {
+            axios.post("http://localhost:3001/read", {
+                table: "TYPE_EMPLOYERS",
+                columns: "ID, NAME",
+                condition: ""
+            })
+                .then(response => {
+                    let type_emp = [];
+                    response.data.result.map(pos => {
+                        let pathEdit = "/type_employers/edit?id=" + pos.ID;
+                        type_emp.push(Object.assign({
+                            icons:
+                                <div style={{display: "flex"}}>
+                                    <Link to={pathEdit}>
+                                        <Button icon={<Edit size="35x" color="#74cf70"/>}/>
+                                    </Link>
+                                    <Button icon={<Trash size="35x" color="#f76f57"/>}
+                                            onClick={() => {
+                                                if (window.confirm("Удалить выбранную запись?"))
+                                                    axios.post("http://localhost:3001/delete", {
+                                                        id: pos.ID,
+                                                        table: "TYPE_EMPLOYERS"
+                                                    })
+                                                        .then(response => {
+                                                            window.location.reload()
+                                                        })
+                                                        .catch(error => {
+                                                            console.log("check type_employers error", error);
+                                                        });
+                                            }
+                                            }/>
+                                </div>
+                        }, pos))
+                    })
+                    dispatch(setArrays("type_employers", type_emp))
+                })
+                .catch(error => {
+                    console.log("check login error", error);
+                });
+        },
+        fetchPositionById(id) {
             axios.post("http://localhost:3001/read", {
                 table: "POSITIONS",
                 columns: "NAME",

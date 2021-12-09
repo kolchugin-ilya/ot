@@ -7,11 +7,11 @@ import {dataExport} from "./vars";
 import useRead from "../../../hooks/useRead";
 
 const AddEmployer = () => {
-    const {fetchPositions} = useRead()
-    const {position} = useSelector(state => state.dataReducer)
+    const {fetchPositions, fetchPodr} = useRead()
+    const {position, podr} = useSelector(state => state.dataReducer)
     const state = useSelector(state => state.changeDataReducer)
     const dispatch = useDispatch();
-    const data = dataExport(state, {position})
+    const data = dataExport(state, {position, podr})
     const handleChange = (event) => {
         dispatch(setChangeEmployers({...state, [event.target.name]: event.target.value}))
     }
@@ -20,8 +20,8 @@ const AddEmployer = () => {
         event.preventDefault();
         axios.post("http://localhost:3001/create", {
             table: "EMPLOYERS",
-            columns: "LAST_NAME, FIRST_NAME, OTC, TAB_NUMBER, POSITION, SNILS, EMPLOYMENT_DATE, BIRTHDAY, ACTIVE_SIGN",
-            values: `'${state.last_name}', '${state.first_name}', '${state.otc}', '${state.tab_number}' , '${state.position}', '${state.snils}', '${state.employment_date}', '${state.birthday}', 1`
+            columns: "LAST_NAME, FIRST_NAME, OTC, TAB_NUMBER, POSITION, PODR_ID, SNILS, EMPLOYMENT_DATE, BIRTHDAY, ACTIVE_SIGN",
+            values: `'${state.last_name}', '${state.first_name}', '${state.otc}', '${state.tab_number}' , '${state.position}', '${state.podr}', '${state.snils}', '${state.employment_date}', '${state.birthday}', 1`
         })
             .then(response => {
                 console.log(response)
@@ -39,14 +39,17 @@ const AddEmployer = () => {
                 first_name: "",
                 otc: "",
                 tab_number: "",
-                position: "",
+                position: 1,
                 snils: "",
                 employment_date: "",
-                birthday: ""
+                birthday: "",
+                podr: 1
             }
         ))
-        fetchPositions()
+        fetchPositions();
+        fetchPodr()
     }, [])
+    console.log(state)
     return (
         <form className={styles.container} onSubmit={(event) => submitForm(event)}>
             <p className={styles.titleAdd}>Добавление сотрудника</p>
