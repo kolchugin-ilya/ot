@@ -5,10 +5,10 @@ import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {setChangeEmployers} from "../../../store/actions/data-actions";
 import {dataExport} from "./vars";
-import useRead from "../../../hooks/useRead";
+import useReadEmployers from "../../../hooks/useReadEmployers";
 
 const EditEmployer = () => {
-    const {fetchPositions, fetchPodr, fetchEmployersById} = useRead()
+    const {fetchPositions, fetchPodr, fetchEmployersById} = useReadEmployers()
     const state = useSelector(state => state.changeDataReducer)
     const {position, podr, error} = useSelector(state => state.dataReducer)
     const dispatch = useDispatch()

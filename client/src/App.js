@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Redirect, Route, Switch, useLocation} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import styles from './App.module.css'
 import Employers from "./layout/Pages/Employers/Employers";
 import Navbar from "./layout/Navbar/Navbar";
@@ -16,51 +16,10 @@ import AddEmployer from "./layout/Pages/Employers/AddEmployer";
 import EditEmployer from "./layout/Pages/Employers/EditEmployer";
 import AddPosition from "./layout/Pages/Position/AddPosition";
 import EditPosition from "./layout/Pages/Position/EditPosition";
-import useRead from "./hooks/useRead";
-import {setChangeBRs} from "./store/actions/data-actions";
-
 
 const App = () => {
     const {loading, userInfo} = useSelector(state => state.loginReducer)
-    const {position, podr, type_employers} = useSelector(state => state.dataReducer)
-    const {namePosition} = useSelector(state => state.changeDataReducer)
-    const {fetchTypeEmployersBr, fetchPositionsBr, fetchPodrBr, fetchPositionById} = useRead()
-    const id = new URLSearchParams(useLocation().search).get("id");
     const dispatch = useDispatch()
-
-    const clearFieldsPosition = () => {
-        dispatch(setChangeBRs('changePositions', {namePosition: ""}))
-    }
-    const onChangePosition = (event) => {
-        dispatch(setChangeBRs('changePositions', {namePosition: event.target.value}))
-    }
-    const formPositionAdd = (event) => {
-        event.preventDefault();
-        axios.post("http://localhost:3001/create", {
-            table: "POSITIONS",
-            columns: "NAME, ACTIVE_SIGN",
-            values: `'${namePosition}', 1`
-        })
-            .then(response => {
-                console.log(response)
-                window.location = "/position"
-            })
-            .catch(error => {
-                console.log("check position error", error);
-            });
-    }
-    const formPositionEdit = (event) => {
-        event.preventDefault();
-        axios.post("http://localhost:3001/update", {
-            id: id,
-            table: "POSITIONS",
-            columns: `NAME='${namePosition}'`
-        })
-            .then(() => window.location = "/position")
-            .catch(error => {
-                console.log("check update error", error);
-            });
-    }
 
     const isLogin = () => {
         axios.post("http://localhost:3001/isLogin", {}, {withCredentials: true})
@@ -96,9 +55,7 @@ const App = () => {
             }
         </Route>
     }
-    const d = () => {
-        return <div>12312312321</div>
-    }
+
     return (
         (loading)
             ?
@@ -117,54 +74,9 @@ const App = () => {
                                 <Route exact path="/employers" component={Employers}/>
                                 <Route exact path="/employers/add" component={AddEmployer}/>
                                 <Route exact path="/employers/edit" component={EditEmployer}/>
-                                <Route exact path="/position">
-                                    <Position
-                                        data={position}
-                                        title='Должности'
-                                        header='Должность'
-                                        link='/position/add'
-                                        fetchBr={fetchPositionsBr}
-                                    />
-                                </Route>
-                                <Route exact path="/position/add">
-                                    <AddPosition
-                                        field={namePosition}
-                                        submitForm={formPositionAdd}
-                                        clearFields={clearFieldsPosition}
-                                        onChange={onChangePosition}
-                                        formTitle='Добавление должности'
-                                        label='Должность'
-                                    />
-                                </Route>
-                                <Route exact path="/position/edit">
-                                    <EditPosition
-                                        field={namePosition}
-                                        submitForm={formPositionEdit}
-                                        onChange={onChangePosition}
-                                        fetchBr={() =>fetchPositionById(id)}
-                                        id={id}
-                                        formTitle='Изменение должности'
-                                        label='Должность'
-                                    />
-                                </Route>
-                                <Route exact path="/type_employers">
-                                    <Position
-                                        data={type_employers}
-                                        title='Типы персонала'
-                                        header='Тип персонала'
-                                        link='/type_employers/add'
-                                        fetchBr={fetchTypeEmployersBr}
-                                    />
-                                </Route>
-                                <Route exact path="/podr">
-                                    <Position
-                                        data={podr}
-                                        title='Типы персонала'
-                                        header='Тип персонала'
-                                        link='/type_employers/add'
-                                        fetchBr={fetchPodrBr}
-                                    />
-                                </Route>
+                                <Route exact path="/position" component={Position}/>
+                                <Route exact path="/position/add" component={AddPosition}/>
+                                <Route exact path="/position/edit" component={EditPosition}/>
                                 <Route>
                                     <PageNotFound/>
                                 </Route>

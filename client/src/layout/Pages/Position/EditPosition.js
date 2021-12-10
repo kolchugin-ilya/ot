@@ -1,22 +1,49 @@
 import React, {useEffect} from 'react';
 import styles from "./Position.module.css";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {setChangeBRs} from "../../../store/actions/data-actions";
+import axios from "axios";
+import {useLocation} from "react-router-dom";
+import useReadPositions from "../../../hooks/useReadPositions";
 
-const EditPosition = ({field, submitForm, onChange,fetchBr, id, formTitle, label}) => {
+const EditPosition = () => {
+    const id = new URLSearchParams(useLocation().search).get("id");
     const {error} = useSelector(state => state.dataReducer)
+    const {namePosition} = useSelector(state => state.changeDataReducer)
+    const {fetchPositionById} = useReadPositions();
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        fetchBr()
+        fetchPositionById(id)
     }, [])
+
+    function submitForm(event) {
+        event.preventDefault();
+        axios.post("http://localhost:3001/update", {
+            id: id,
+            table: "POSITIONS",
+            columns: `NAME='${namePosition}'`
+        })
+            .then(response => {
+                console.log(response)
+                window.location = "/position"
+            })
+            .catch(error => {
+                console.log("check update error", error);
+            });
+    }
+    function onChange(event) {
+        dispatch(setChangeBRs('changePositions', {namePosition: event.target.value}))
+    }
     return (
         id ?
             !error.error ?
                 (<form className={styles.container} onSubmit={(event) => submitForm(event)}>
-                    <p className={styles.titleAdd}>{formTitle}</p>
+                    <p className={styles.titleAdd}>Изменение должности</p>
                              <div className={styles.row}>
-                                <p>{label}</p>
-                                <input onChange={(event) => onChange(event)} required name={field}
-                                       value={field} type="text"
+                                <p>Должность</p>
+                                <input onChange={(event) => onChange(event)} required name={namePosition}
+                                       value={namePosition} type="text"
                                 />
                             </div>
                     <button type="submit">Сохранить</button>

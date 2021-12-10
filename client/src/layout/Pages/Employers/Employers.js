@@ -3,10 +3,10 @@ import MyTable from "../../../components/MyTable/MyTable";
 import styles from './Employers.module.css';
 import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
-import useRead from "../../../hooks/useRead";
+import useReadEmployers from "../../../hooks/useReadEmployers";
 
 const Employers = () => {
-    const {fetchEmployers} = useRead()
+    const {fetchEmployers} = useReadEmployers()
     const {employers} = useSelector(state => state.dataReducer)
     useEffect(() => {
         fetchEmployers()
