@@ -1,43 +1,43 @@
 import React, {useEffect} from 'react';
-import styles from '../Styles.module.css';
 import axios from "axios";
 import {setChangeBRs} from "../../../store/actions/data-actions";
 import {useDispatch, useSelector} from "react-redux";
+import styles from '../Styles.module.css';
 
 const AddPosition = () => {
-    const {namePosition} = useSelector(state => state.changeDataReducer)
+    const {nameTypeEmployers} = useSelector(state => state.changeDataReducer)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(setChangeBRs('changePositions', {namePosition: ""}))
+        dispatch(setChangeBRs('changeTypeEmployers', {nameTypeEmployers: ""}))
     }, [])
 
     function submitForm(event) {
         event.preventDefault();
         axios.post("http://localhost:3001/create", {
-            table: "POSITIONS",
+            table: "TYPE_EMPLOYERS",
             columns: "NAME, ACTIVE_SIGN",
-            values: `'${namePosition}', 1`
+            values: `'${nameTypeEmployers}', 1`
         })
             .then(response => {
                 console.log(response)
-                window.location = "/position"
+                window.location = "/type_employers"
             })
             .catch(error => {
-                console.log("check position error", error);
+                console.log("check type employers error", error);
             });
     }
 
     function onChange(event) {
-        dispatch(setChangeBRs('changePositions', {namePosition: event.target.value}))
+        dispatch(setChangeBRs('changeTypeEmployers', {nameTypeEmployers: event.target.value}))
     }
 
     return (
         <form className={styles.container} onSubmit={(event) => submitForm(event)}>
-            <p className={styles.titleAdd}>Добавление должности</p>
+            <p className={styles.titleAdd}>Добавление типа персонала</p>
             <div className={styles.row}>
-                <p>Должность</p>
-                <input onChange={(event) => onChange(event)} required name="namePosition" value={namePosition}
+                <p>Тип персонала</p>
+                <input onChange={(event) => onChange(event)} required name="nameTypeEmployers" value={nameTypeEmployers}
                        type="text"
                 />
             </div>

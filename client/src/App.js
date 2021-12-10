@@ -16,6 +16,8 @@ import AddEmployer from "./layout/Pages/Employers/AddEmployer";
 import EditEmployer from "./layout/Pages/Employers/EditEmployer";
 import AddPosition from "./layout/Pages/Position/AddPosition";
 import EditPosition from "./layout/Pages/Position/EditPosition";
+import TypeEmployers from "./layout/Pages/TypeEmployers/TypeEmployers";
+import AddTypeEmployers from "./layout/Pages/TypeEmployers/AddTypeEmployers";
 
 const App = () => {
     const {loading, userInfo} = useSelector(state => state.loginReducer)
@@ -55,7 +57,6 @@ const App = () => {
             }
         </Route>
     }
-
     return (
         (loading)
             ?
@@ -71,12 +72,18 @@ const App = () => {
                                 <Route exact path="/">
                                     main
                                 </Route>
+                                {/* Список сотрудников  */}
                                 <Route exact path="/employers" component={Employers}/>
                                 <Route exact path="/employers/add" component={AddEmployer}/>
                                 <Route exact path="/employers/edit" component={EditEmployer}/>
+                                {/*Должность*/}
                                 <Route exact path="/position" component={Position}/>
                                 <Route exact path="/position/add" component={AddPosition}/>
                                 <Route exact path="/position/edit" component={EditPosition}/>
+                                {/*Тип персонала*/}
+                                <Route exact path="/type_employers" component={TypeEmployers}/>
+                                <Route exact path="/type_employers/add" component={AddTypeEmployers}/>
+                                <Route exact path="/type_employers/edit" component={EditPosition}/>
                                 <Route>
                                     <PageNotFound/>
                                 </Route>

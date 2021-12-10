@@ -1,36 +1,36 @@
 import React, {useEffect} from 'react';
 import MyTable from "../../../components/MyTable/MyTable";
-import styles from '../Styles.module.css';
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
-import useReadPositions from "../../../hooks/useReadPositions";
+import useReadTypeEmployers from "../../../hooks/useReadTypeEmployers";
+import styles from "../Styles.module.css";
 
-const Position = () => {
-    const {fetchPositions} = useReadPositions()
-    const {position} = useSelector(state => state.dataReducer)
+const TypeEmployers = () => {
+    const {fetchTypeEmployers} = useReadTypeEmployers()
+    const {typeEmployers} = useSelector(state => state.dataReducer)
     useEffect(() =>{
-        fetchPositions()
+        fetchTypeEmployers()
     }, [])
     return (
         <>
             <MyTable
                 title={
                     <div className={styles.title}>
-                        <p>Должности</p>
-                        <Link to="/position/add">
+                        <p>Тип персонала</p>
+                        <Link to="/type_employers/add">
                             <button>+ Добавить</button>
                         </Link>
                     </div>
                 }
-                data={position}
+                data={typeEmployers}
                 header={[
                     {title: '', field: 'icons'},
-                    {title: `Должность`, field: 'NAME'},
+                    {title: `Тип персонала`, field: 'NAME'},
                 ]}
             />
         </>
     );
 };
 
-export default Position;
+export default TypeEmployers;
 

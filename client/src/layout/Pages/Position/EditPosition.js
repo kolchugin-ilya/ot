@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import styles from "./Position.module.css";
+import styles from '../Styles.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {setChangeBRs} from "../../../store/actions/data-actions";
 import axios from "axios";

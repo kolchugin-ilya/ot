@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import MyTable from "../../../components/MyTable/MyTable";
-import styles from './Employers.module.css';
+import styles from '../Styles.module.css';
 import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import useReadEmployers from "../../../hooks/useReadEmployers";

@@ -7,8 +7,8 @@ export function setArrays(table, payload) {
                     return dispatch({type: "employers", employers: payload})
                 case "position":
                     return dispatch({type: "position", position: payload})
-                case "type_employers":
-                    return dispatch({type: "type_employers", type_employers: payload})
+                case "typeEmployers":
+                    return dispatch({type: "typeEmployers", typeEmployers: payload})
                 case "podr":
                     return dispatch({type: "podr", podr: payload})
                 default:

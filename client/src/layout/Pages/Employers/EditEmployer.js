@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useLocation} from "react-router-dom";
-import styles from "./Employers.module.css";
+import styles from '../Styles.module.css';
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {setChangeEmployers} from "../../../store/actions/data-actions";
