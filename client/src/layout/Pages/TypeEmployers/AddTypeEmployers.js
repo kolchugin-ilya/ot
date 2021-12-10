@@ -9,7 +9,7 @@ const AddPosition = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(setChangeBRs('changeTypeEmployers', {nameTypeEmployers: ""}))
+        dispatch(setChangeBRs('changeTypeEmployers', {nameTypeEmployers: 1}))
     }, [])
 
     function submitForm(event) {

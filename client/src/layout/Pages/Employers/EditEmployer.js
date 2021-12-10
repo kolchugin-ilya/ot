@@ -8,11 +8,11 @@ import {dataExport} from "./vars";
 import useReadEmployers from "../../../hooks/useReadEmployers";
 
 const EditEmployer = () => {
-    const {fetchPositions, fetchPodr, fetchEmployersById} = useReadEmployers()
+    const {fetchPositions, fetchTypeEmployers, fetchPodr, fetchEmployersById} = useReadEmployers()
     const state = useSelector(state => state.changeDataReducer)
-    const {position, podr, error} = useSelector(state => state.dataReducer)
+    const {position, podr, typeEmployers, error} = useSelector(state => state.dataReducer)
     const dispatch = useDispatch()
-    const data = dataExport(state, {position, podr})
+    const data = dataExport(state, {position, podr, typeEmployers})
     const id = new URLSearchParams(useLocation().search).get("id");
     const handleChange = (event) => {
         dispatch(setChangeEmployers({...state, [event.target.name]: event.target.value}))
@@ -23,7 +23,7 @@ const EditEmployer = () => {
             id: id,
             table: "EMPLOYERS",
             columns: `LAST_NAME='${state.last_name}', FIRST_NAME='${state.first_name}',OTC='${state.otc}',
-                      TAB_NUMBER='${state.tab_number}', POSITION='${state.position}', SNILS='${state.snils}',
+                      TAB_NUMBER='${state.tab_number}', POSITION='${state.position}', TYPE_EMPLOYERS='${state.typeEmployers}', SNILS='${state.snils}',
                       EMPLOYMENT_DATE='${state.employment_date}', BIRTHDAY='${state.birthday}', PODR_ID='${state.podr}', ACTIVE_SIGN=1`
         })
             .then(response => {
@@ -36,6 +36,7 @@ const EditEmployer = () => {
     useEffect(() => {
         fetchPositions();
         fetchPodr();
+        fetchTypeEmployers();
         fetchEmployersById(id)
     }, [])
     return (

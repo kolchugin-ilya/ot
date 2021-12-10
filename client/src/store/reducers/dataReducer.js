@@ -14,11 +14,9 @@ const newInitialState = {
     first_name: "",
     otc: "",
     tab_number: "",
-    position: 1,
     employment_date: "",
     snils: "",
     birthday: "",
-    podr: 1,
     namePosition: "",
     nameTypeEmployers: ""
 }

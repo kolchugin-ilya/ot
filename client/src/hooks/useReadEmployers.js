@@ -107,6 +107,20 @@ const useReadEmployers = () => {
                     console.log("check podr error", error);
                 });
         },
+        // Все подразделения
+        fetchTypeEmployers() {
+            axios.post("http://localhost:3001/read", {
+                table: "TYPE_EMPLOYERS",
+                columns: "ID, NAME",
+                condition: ""
+            })
+                .then(response => {
+                    dispatch(setArrays("typeEmployers", response.data.result))
+                })
+                .catch(error => {
+                    console.log("check type employers error", error);
+                });
+        },
     }), [dispatch])
 }
 

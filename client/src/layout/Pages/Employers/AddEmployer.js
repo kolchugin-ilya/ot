@@ -7,11 +7,11 @@ import {dataExport} from "./vars";
 import useReadEmployers from "../../../hooks/useReadEmployers";
 
 const AddEmployer = () => {
-    const {fetchPositions, fetchPodr} = useReadEmployers()
-    const {position, podr} = useSelector(state => state.dataReducer)
+    const {fetchPositions, fetchPodr, fetchTypeEmployers} = useReadEmployers()
+    const {position, podr, typeEmployers} = useSelector(state => state.dataReducer)
     const state = useSelector(state => state.changeDataReducer)
     const dispatch = useDispatch();
-    const data = dataExport(state, {position, podr})
+    const data = dataExport(state, {position, podr, typeEmployers})
     const handleChange = (event) => {
         dispatch(setChangeEmployers({...state, [event.target.name]: event.target.value}))
     }
@@ -32,6 +32,9 @@ const AddEmployer = () => {
             });
     }
     useEffect(() => {
+        fetchPositions();
+        fetchPodr();
+        fetchTypeEmployers();
         /* При каждой загрузке страницы обнуляем состояние */
         dispatch(setChangeEmployers({
                 ...state,
@@ -39,15 +42,13 @@ const AddEmployer = () => {
                 first_name: "",
                 otc: "",
                 tab_number: "",
-                position: 1,
                 snils: "",
                 employment_date: "",
                 birthday: "",
-                podr: 1
+                namePosition: (position[0])?position[0][Object.keys(position[0])[0]]:1777,
+                nameTypeEmployers: typeEmployers[0]
             }
         ))
-        fetchPositions();
-        fetchPodr()
     }, [])
     console.log(state)
     return (
