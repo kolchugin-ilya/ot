@@ -1,19 +1,8 @@
 // Массивы при загрузке страниц
-export function setArrays(table, payload) {
+export function setArrays(payload) {
     return (dispatch) => {
         try {
-            switch (table) {
-                case "employers":
-                    return dispatch({type: "employers", employers: payload})
-                case "position":
-                    return dispatch({type: "position", position: payload})
-                case "typeEmployers":
-                    return dispatch({type: "typeEmployers", typeEmployers: payload})
-                case "podr":
-                    return dispatch({type: "podr", podr: payload})
-                default:
-                    return;
-            }
+            dispatch({type: "fetchArray", ...payload})
         } catch (e) {
             console.log(e)
         }

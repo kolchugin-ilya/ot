@@ -45,7 +45,7 @@ const useReadEmployers = () => {
                                 </div>
                         }, pos))
                     })
-                    dispatch(setArrays("position", positions))
+                    dispatch(setArrays({position: positions}))
                 })
                 .catch(error => {
                     console.log("check login error", error);

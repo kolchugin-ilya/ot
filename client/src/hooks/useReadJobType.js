@@ -6,22 +6,22 @@ import {Link} from "react-router-dom";
 import {Button} from "grommet";
 import {Edit, Trash} from "grommet-icons";
 
-const useReadEmployers = () => {
+const useReadJobType = () => {
     const dispatch = useDispatch()
 
     return useMemo(() => ({
-        // Список типов персонала на странице TypeEmployers
-        fetchTypeEmployers() {
+        // Список видов занятости
+        fetchJobType() {
             axios.post("http://localhost:3001/read", {
-                table: "TYPE_EMPLOYERS",
+                table: "JOB_TYPE",
                 columns: "ID, NAME",
                 condition: ""
             })
                 .then(response => {
-                    let type_emp = [];
+                    let job_type = [];
                     response.data.result.map(pos => {
-                        let pathEdit = "/type_employers/edit?id=" + pos.ID;
-                        type_emp.push(Object.assign({
+                        let pathEdit = "/job_type/edit?id=" + pos.ID;
+                        job_type.push(Object.assign({
                             icons:
                                 <div style={{display: "flex"}}>
                                     <Link to={pathEdit}>
@@ -29,39 +29,39 @@ const useReadEmployers = () => {
                                     </Link>
                                     <Button icon={<Trash size="35x" color="#f76f57"/>}
                                             onClick={() => {
-                                                if (window.confirm("Удалить тип персонала?"))
+                                                if (window.confirm("Удалить данную запись?"))
                                                     axios.post("http://localhost:3001/delete", {
                                                         id: pos.ID,
-                                                        table: "TYPE_EMPLOYERS"
+                                                        table: "JOB_TYPE"
                                                     })
                                                         .then(response => {
                                                             window.location.reload()
                                                         })
                                                         .catch(error => {
-                                                            console.log("check type employers error", error);
+                                                            console.log("check login error", error);
                                                         });
                                             }
                                             }/>
                                 </div>
                         }, pos))
                     })
-                    dispatch(setArrays({type_employers: type_emp}))
+                    dispatch(setArrays({job_type: job_type}))
                 })
                 .catch(error => {
-                    console.log("check type employers error", error);
+                    console.log("check login error", error);
                 });
         },
-        // Заполнение страницы EditTypeEmployers
-        fetchTypeEmployersById(id) {
+        // Заполнение страницы EditPosition
+        fetchPositionById(id) {
             axios.post("http://localhost:3001/read", {
-                table: "TYPE_EMPLOYERS",
+                table: "POSITIONS",
                 columns: "NAME",
                 condition: "AND ID=" + id
             },{withCredentials: true})
                 .then(response => {
                     let positions = response.data.result[0];
                     dispatch(setChangeEmployers({
-                        typeEmployers: positions.NAME
+                        namePosition: positions.NAME
                     }))
                 })
                 .catch(error => {
@@ -71,11 +71,11 @@ const useReadEmployers = () => {
                             error: true
                         }))
                     window.setTimeout(
-                        window.location = "/type_employers"
+                        window.location = "/position"
                         , 3000);
                 });
         }
     }), [dispatch])
 }
 
-export default useReadEmployers
+export default useReadJobType

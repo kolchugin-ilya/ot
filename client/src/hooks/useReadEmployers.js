@@ -44,7 +44,7 @@ const useReadEmployers = () => {
                         }, emp))
                     })
                     // Изменяем состояние массива сотрудников
-                    dispatch(setArrays("employers", employers))
+                    dispatch(setArrays({employers: employers}))
                 })
                 .catch(error => {
                     console.log("check login error", error);
@@ -107,7 +107,7 @@ const useReadEmployers = () => {
                     console.log("check podr error", error);
                 });
         },
-        // Все подразделения
+        // Все типы сотрудников
         fetchTypeEmployers() {
             axios.post("http://localhost:3001/read", {
                 table: "TYPE_EMPLOYERS",
