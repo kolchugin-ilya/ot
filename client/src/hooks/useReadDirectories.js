@@ -6,8 +6,7 @@ import {Link} from "react-router-dom";
 import {Button} from "grommet";
 import {Edit, Trash} from "grommet-icons";
 
-function postDirectories(array,path, tableName, row) {
-    let pathEdit = `/${path}/edit?id=` + row.ID;
+function postDirectories(array,pathEdit,tableName,row) {
     array.push(Object.assign({
         icons:
             <div style={{display: "flex"}}>
@@ -21,11 +20,11 @@ function postDirectories(array,path, tableName, row) {
                                     id: row.ID,
                                     table: `${tableName}`
                                 })
-                                    .then(response => {
+                                    .then(() => {
                                         window.location.reload()
                                     })
                                     .catch(error => {
-                                        console.log("check directory read error", error);
+                                        console.log(`check directory ${tableName} error`, error);
                                     });
                         }
                         }/>
@@ -37,22 +36,140 @@ const useReadDirectories = () => {
     const dispatch = useDispatch()
 
     return useMemo(() => ({
-        // Массив сотрудников на странице Employers
+        // Массив сотрудников
         fetchEmployers() {
             axios.post("http://localhost:3001/readEmployers")
                 .then(response => {
-                    let employers = [];
-                    /* Идём по массиву сотрудников и каждому добавляем
-                     кнопки Редактировать и Удалить */
-                    response.data.result.map(emp => {
-
+                    let array = [];
+                    response.data.result.map(curr => {
+                        let pathEdit = "/employers/edit?id=" + curr.ID
+                        postDirectories(array,pathEdit,"EMPLOYERS",curr)
                     })
-                    // Изменяем состояние массива сотрудников
-                    dispatch(setArrays({employers: employers}))
+                    dispatch(setArrays({employers: array}))
                 }
                 )
                 .catch(error => {
-                    console.log("check login error", error);
+                    console.log("check directory EMPLOYERS error", error);
+                });
+        },
+        // Массив должностей
+        fetchPositions() {
+            axios.post("http://localhost:3001/read", {
+                table: "POSITIONS",
+                columns: "ID, NAME",
+                condition: ""
+            })
+                .then(response => {
+                        let array = [];
+                        response.data.result.map(curr => {
+                            let pathEdit = "/position/edit?id=" + curr.ID
+                            postDirectories(array,pathEdit,"POSITIONS",curr)
+                        })
+                        dispatch(setArrays({position: array}))
+                    }
+                )
+                .catch(error => {
+                    console.log("check directory POSITIONS error", error);
+                });
+        },
+        // Массив типов персонала
+        fetchTypeEmployers() {
+            axios.post("http://localhost:3001/read", {
+                table: "TYPE_EMPLOYERS",
+                columns: "ID, NAME",
+                condition: ""
+            })
+                .then(response => {
+                        let array = [];
+                        response.data.result.map(curr => {
+                            let pathEdit = "/type_employers/edit?id=" + curr.ID
+                            postDirectories(array,pathEdit,"TYPE_EMPLOYERS",curr)
+                        })
+                        dispatch(setArrays({type_employers: array}))
+                    }
+                )
+                .catch(error => {
+                    console.log("check directory TYPE_EMPLOYERS error", error);
+                });
+        },
+        // Массив видов занятости
+        fetchJobType() {
+            axios.post("http://localhost:3001/read", {
+                table: "JOB_TYPE",
+                columns: "ID, NAME",
+                condition: ""
+            })
+                .then(response => {
+                        let array = [];
+                        response.data.result.map(curr => {
+                            let pathEdit = "/job_type/edit?id=" + curr.ID
+                            postDirectories(array,pathEdit,"JOB_TYPE",curr)
+                        })
+                        dispatch(setArrays({job_type: array}))
+                    }
+                )
+                .catch(error => {
+                    console.log("check directory JOB_TYPE error", error);
+                });
+        },
+        // Массив видов занятости
+        fetchPodr() {
+            axios.post("http://localhost:3001/read", {
+                table: "PODR",
+                columns: "ID, NAME",
+                condition: ""
+            })
+                .then(response => {
+                        let array = [];
+                        response.data.result.map(curr => {
+                            let pathEdit = "/podr/edit?id=" + curr.ID
+                            postDirectories(array,pathEdit,"PODR",curr)
+                        })
+                        dispatch(setArrays({podr: array}))
+                    }
+                )
+                .catch(error => {
+                    console.log("check directory PODR error", error);
+                });
+        },
+        // Массив ФЛГ
+        fetchFlg() {
+            axios.post("http://localhost:3001/read", {
+                table: "FLG",
+                columns: "ID, NAME",
+                condition: ""
+            })
+                .then(response => {
+                        let array = [];
+                        response.data.result.map(curr => {
+                            let pathEdit = "/flg/edit?id=" + curr.ID
+                            postDirectories(array,pathEdit,"FLG",curr)
+                        })
+                        dispatch(setArrays({flg: array}))
+                    }
+                )
+                .catch(error => {
+                    console.log("check directory FLG error", error);
+                });
+        },
+        // Массив вредных факторов
+        fetchFactors() {
+            axios.post("http://localhost:3001/read", {
+                table: "FACTORS",
+                columns: "ID, NAME",
+                condition: ""
+            })
+                .then(response => {
+                        let array = [];
+                        response.data.result.map(curr => {
+                            let pathEdit = "/factors/edit?id=" + curr.ID
+                            postDirectories(array,pathEdit,"FACTORS",curr)
+                        })
+                        dispatch(setArrays({factors: array}))
+                    }
+                )
+                .catch(error => {
+                    console.log("check directory FACTORS error", error);
                 });
         },
     }), [dispatch])

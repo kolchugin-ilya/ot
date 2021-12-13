@@ -1,13 +1,11 @@
 import React, {useEffect} from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
 import styles from './App.module.css'
-import Employers from "./layout/Pages/Employers/Employers";
 import Navbar from "./layout/Navbar/Navbar";
 import Header from "./layout/Header/Header";
 import Footer from "./layout/Footer/Footer";
 import Loading from "./components/Loading/Loading";
 import PageNotFound from "./layout/Pages/PageNotFound/PageNotFound";
-import Position from "./layout/Pages/Position/Position";
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
 import {setLoading, setSession} from "./store/actions/login-actions";
@@ -16,27 +14,14 @@ import AddEmployer from "./layout/Pages/Employers/AddEmployer";
 import EditEmployer from "./layout/Pages/Employers/EditEmployer";
 import AddPosition from "./layout/Pages/Position/AddPosition";
 import EditPosition from "./layout/Pages/Position/EditPosition";
-import TypeEmployers from "./layout/Pages/TypeEmployers/TypeEmployers";
 import AddTypeEmployers from "./layout/Pages/TypeEmployers/AddTypeEmployers";
 import Directory from './layout/Pages/Directory';
-import useReadEmployers from "./hooks/useReadEmployers";
 import {headerEmployers, headerFactors, headerFlg, headerJobType, headerPodr, headerPosition} from "./layout/headers";
-import useReadPositions from "./hooks/useReadPositions";
-import useReadTypeEmployers from "./hooks/useReadTypeEmployers";
-import useReadJobType from "./hooks/useReadJobType";
-import useReadPodr from "./hooks/useReadPodr";
-import useReadFlg from "./hooks/useReadFlg";
-import useReadFactors from "./hooks/useReadFactors";
+import useReadDirectories from "./hooks/useReadDirectories";
 
 const App = () => {
     const {employers,position,type_employers,job_type,podr,flg,factors} = useSelector(state => state.dataReducer)
-    const {fetchEmployers} = useReadEmployers()
-    const {fetchPositions} = useReadPositions()
-    const {fetchTypeEmployers} = useReadTypeEmployers()
-    const {fetchJobType} = useReadJobType()
-    const {fetchPodr} = useReadPodr()
-    const {fetchFlg} = useReadFlg()
-    const {fetchFactors} = useReadFactors()
+    const {fetchEmployers,fetchPositions,fetchTypeEmployers,fetchJobType,fetchPodr,fetchFlg,fetchFactors} = useReadDirectories()
     const {loading, userInfo} = useSelector(state => state.loginReducer)
     const dispatch = useDispatch()
 

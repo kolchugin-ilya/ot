@@ -20,7 +20,7 @@ const useReadFlg = () => {
                 .then(response => {
                     let flg = [];
                     response.data.result.map(pos => {
-                        let pathEdit = "/job_type/edit?id=" + pos.ID;
+                        let pathEdit = "/flg/edit?id=" + pos.ID;
                         flg.push(Object.assign({
                             icons:
                                 <div style={{display: "flex"}}>
