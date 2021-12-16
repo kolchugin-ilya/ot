@@ -71,14 +71,7 @@ class dataController {
                 }
                 const search_query = mysql.format(`
                 SELECT 
-                LAST_NAME, 
-                FIRST_NAME, 
-                OTC, 
-                TAB_NUMBER, 
-                POSITION, 
-                SNILS, 
-                EMPLOYMENT_DATE, 
-                BIRTHDAY 
+                *
                 FROM EMPLOYERS 
                 WHERE ACTIVE_SIGN=1 AND ID=${id}
                 `)

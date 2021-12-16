@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react'
 import {useDispatch} from 'react-redux'
-import {setArrays, setChangeEmployers, setError} from "../store/actions/data-actions";
+import {setArrays, setChangeBRs, setChangeEmployers, setError} from "../store/actions/data-actions";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import {Button} from "grommet";
@@ -57,7 +57,7 @@ const useReadEmployers = () => {
             }, {withCredentials: true})
                 .then(response => {
                     let employers = response.data.result[0];
-                    dispatch(setChangeEmployers({
+                    dispatch(setChangeBRs({
                         first_name: employers.FIRST_NAME,
                         last_name: employers.LAST_NAME,
                         otc: employers.OTC,

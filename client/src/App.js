@@ -21,6 +21,8 @@ import {
     dataPositionExport,
     dataTypeEmployersExport
 } from "./layout/data";
+import EditDirectory from "./layout/Pages/EditDirectory";
+import useReadDirectoriesById from "./hooks/useReadDirectoriesById";
 
 const App = () => {
     const {employers, position, type_employers, job_type, podr, flg, factors} = useSelector(state => state.dataReducer)
@@ -34,6 +36,7 @@ const App = () => {
         fetchFlg,
         fetchFactors
     } = useReadDirectories()
+
     const dataEmployers = dataEmployersExport(state, {position, podr, type_employers, job_type})
     const dataPosition = dataPositionExport(state)
     const dataTypeEmployers = dataTypeEmployersExport(state)
@@ -115,6 +118,13 @@ const App = () => {
                                         data={dataEmployers}
                                         table="EMPLOYERS"
                                         title="Добавление сотрудника"
+                                    />
+                                </Route>
+                                <Route exact path="/employers/edit">
+                                    <EditDirectory
+                                        data={dataEmployers}
+                                        table="EMPLOYERS"
+                                        title="Изменение сотрудника"
                                     />
                                 </Route>
                                 {/*Должность*/}

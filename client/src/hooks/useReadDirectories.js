@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react'
 import {useDispatch} from 'react-redux'
-import {setArrays, setChangeEmployers, setError} from "../store/actions/data-actions";
+import {setArrays} from "../store/actions/data-actions";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import {Button} from "grommet";

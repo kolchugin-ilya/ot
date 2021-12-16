@@ -13,7 +13,7 @@ export function setChangeEmployers(payload) {
     return (dispatch) => {
         try {
             dispatch({
-                type: "changeEmployers",
+                type: "changeData",
                 ...payload
             })
         } catch (e) {

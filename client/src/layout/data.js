@@ -5,7 +5,7 @@ export const dataEmployersExport = (state, options) => [
     {label: "Табельный номер", name: "tab_number", value: state.tab_number, type: "text"},
     {label: "Должность", name: "position_id", value: state.position_id, options: options.position, type: "select"},
     {label: "Тип персонала", name: "type_employers_id", value: state.type_employers_id, options: options.type_employers, type: "select"},
-    {label: "Подразделение", name: "podr_id", value: state.podr, options: options.podr, type: "select"},
+    {label: "Подразделение", name: "podr_id", value: state.podr_id, options: options.podr, type: "select"},
     {label: "Вид занятости", name: "job_type_id", value: state.job_type_id, options: options.job_type, type: "select"},
     {label: "СНИЛС", name: "snils", value: state.snils, type: "text"},
     {label: "Дата приёма", name: "employment_date", value: state.employment_date, type: "date"},
