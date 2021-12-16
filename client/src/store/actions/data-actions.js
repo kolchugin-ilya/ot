@@ -21,10 +21,10 @@ export function setChangeEmployers(payload) {
         }
     }
 }
-export function setChangeBRs(br, payload) {
+export function setChangeBRs(payload) {
     return (dispatch) => {
         try {
-            dispatch({type: br, ...payload})
+            dispatch({type: "changeData", ...payload})
         } catch (e) {
             console.log(e)
         }

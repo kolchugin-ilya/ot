@@ -10,18 +10,37 @@ import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
 import {setLoading, setSession} from "./store/actions/login-actions";
 import Login from "./layout/Pages/Login/Login";
-import AddEmployer from "./layout/Pages/Employers/AddEmployer";
-import EditEmployer from "./layout/Pages/Employers/EditEmployer";
-import AddPosition from "./layout/Pages/Position/AddPosition";
-import EditPosition from "./layout/Pages/Position/EditPosition";
-import AddTypeEmployers from "./layout/Pages/TypeEmployers/AddTypeEmployers";
 import Directory from './layout/Pages/Directory';
 import {headerEmployers, headerFactors, headerFlg, headerJobType, headerPodr, headerPosition} from "./layout/headers";
 import useReadDirectories from "./hooks/useReadDirectories";
+import AddDirectory from "./layout/Pages/AddDirectory";
+import {
+    dataEmployersExport, dataFactorsExport, dataFlgExport,
+    dataJobTypeExport,
+    dataPodrExport,
+    dataPositionExport,
+    dataTypeEmployersExport
+} from "./layout/data";
 
 const App = () => {
-    const {employers,position,type_employers,job_type,podr,flg,factors} = useSelector(state => state.dataReducer)
-    const {fetchEmployers,fetchPositions,fetchTypeEmployers,fetchJobType,fetchPodr,fetchFlg,fetchFactors} = useReadDirectories()
+    const {employers, position, type_employers, job_type, podr, flg, factors} = useSelector(state => state.dataReducer)
+    const state = useSelector(state => state.changeDataReducer)
+    const {
+        fetchEmployers,
+        fetchPositions,
+        fetchTypeEmployers,
+        fetchJobType,
+        fetchPodr,
+        fetchFlg,
+        fetchFactors
+    } = useReadDirectories()
+    const dataEmployers = dataEmployersExport(state, {position, podr, type_employers, job_type})
+    const dataPosition = dataPositionExport(state)
+    const dataTypeEmployers = dataTypeEmployersExport(state)
+    const dataJobType = dataJobTypeExport(state)
+    const dataPodr = dataPodrExport(state)
+    const dataFlg = dataFlgExport(state)
+    const dataFactors = dataFactorsExport(state)
     const {loading, userInfo} = useSelector(state => state.loginReducer)
     const dispatch = useDispatch()
 
@@ -91,8 +110,13 @@ const App = () => {
                                         headerTable={headerEmployers}
                                     />
                                 </Route>
-                                <Route exact path="/employers/add" component={AddEmployer}/>
-                                <Route exact path="/employers/edit" component={EditEmployer}/>
+                                <Route exact path="/employers/add">
+                                    <AddDirectory
+                                        data={dataEmployers}
+                                        table="EMPLOYERS"
+                                        title="Добавление сотрудника"
+                                    />
+                                </Route>
                                 {/*Должность*/}
                                 <Route exact path="/position">
                                     <Directory
@@ -103,8 +127,13 @@ const App = () => {
                                         headerTable={headerPosition}
                                     />
                                 </Route>
-                                <Route exact path="/position/add" component={AddPosition}/>
-                                <Route exact path="/position/edit" component={EditPosition}/>
+                                <Route exact path="/position/add">
+                                    <AddDirectory
+                                        data={dataPosition}
+                                        table="POSITIONS"
+                                        title="Добавление должности"
+                                    />
+                                </Route>
                                 {/*Тип персонала*/}
                                 <Route exact path="/type_employers">
                                     <Directory
@@ -115,8 +144,13 @@ const App = () => {
                                         headerTable={headerPosition}
                                     />
                                 </Route>
-                                <Route exact path="/type_employers/add" component={AddTypeEmployers}/>
-                                <Route exact path="/type_employers/edit" component={EditPosition}/>
+                                <Route exact path="/type_employers/add">
+                                    <AddDirectory
+                                        data={dataTypeEmployers}
+                                        table="TYPE_EMPLOYERS"
+                                        title="Добавление типа персонала"
+                                    />
+                                </Route>
                                 {/*Вид занятости*/}
                                 <Route exact path="/job_type">
                                     <Directory
@@ -125,6 +159,13 @@ const App = () => {
                                         linkPath="/job_type/add"
                                         dataTable={job_type}
                                         headerTable={headerJobType}
+                                    />
+                                </Route>
+                                <Route exact path="/job_type/add">
+                                    <AddDirectory
+                                        data={dataJobType}
+                                        table="JOB_TYPE"
+                                        title="Добавление видов занятости"
                                     />
                                 </Route>
                                 {/*Подразделения*/}
@@ -137,6 +178,13 @@ const App = () => {
                                         headerTable={headerPodr}
                                     />
                                 </Route>
+                                <Route exact path="/podr/add">
+                                    <AddDirectory
+                                        data={dataPodr}
+                                        table="PODR"
+                                        title="Добавление подразделений"
+                                    />
+                                </Route>
                                 {/*ФЛГ*/}
                                 <Route exact path="/flg">
                                     <Directory
@@ -147,6 +195,13 @@ const App = () => {
                                         headerTable={headerFlg}
                                     />
                                 </Route>
+                                <Route exact path="/flg/add">
+                                    <AddDirectory
+                                        data={dataFlg}
+                                        table="FLG"
+                                        title="Добавление ФЛГ"
+                                    />
+                                </Route>
                                 {/*Вредные факторы*/}
                                 <Route exact path="/factors">
                                     <Directory
@@ -155,6 +210,13 @@ const App = () => {
                                         linkPath="/factors/add"
                                         dataTable={factors}
                                         headerTable={headerFactors}
+                                    />
+                                </Route>
+                                <Route exact path="/factors/add">
+                                    <AddDirectory
+                                        data={dataFactors}
+                                        table="FACTORS"
+                                        title="Добавление вредных факторов"
                                     />
                                 </Route>
                                 <Route>
