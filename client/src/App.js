@@ -10,19 +10,18 @@ import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
 import {setLoading, setSession} from "./store/actions/login-actions";
 import Login from "./layout/Pages/Login/Login";
-import Directory from './layout/Pages/Directory';
-import {headerEmployers, headerFactors, headerFlg, headerJobType, headerPodr, headerPosition} from "./layout/headers";
+import Directory from './layout/Pages/Directories/Directory';
+import {headerEmployers, headerFactors, headerFlg, headerJobType, headerPodr, headerPosition} from "./vars/headers";
 import useReadDirectories from "./hooks/useReadDirectories";
-import AddDirectory from "./layout/Pages/AddDirectory";
+import AddDirectory from "./layout/Pages/Directories/AddDirectory";
 import {
     dataEmployersExport, dataFactorsExport, dataFlgExport,
     dataJobTypeExport,
     dataPodrExport,
     dataPositionExport,
     dataTypeEmployersExport
-} from "./layout/data";
-import EditDirectory from "./layout/Pages/EditDirectory";
-import useReadDirectoriesById from "./hooks/useReadDirectoriesById";
+} from "./vars/data";
+import EditDirectory from "./layout/Pages/Directories/EditDirectory";
 
 const App = () => {
     const {employers, position, type_employers, job_type, podr, flg, factors} = useSelector(state => state.dataReducer)
@@ -144,6 +143,13 @@ const App = () => {
                                         title="Добавление должности"
                                     />
                                 </Route>
+                                <Route exact path="/position/edit">
+                                    <EditDirectory
+                                        data={dataPosition}
+                                        table="POSITIONS"
+                                        title="Изменение должности"
+                                    />
+                                </Route>
                                 {/*Тип персонала*/}
                                 <Route exact path="/type_employers">
                                     <Directory
@@ -156,6 +162,13 @@ const App = () => {
                                 </Route>
                                 <Route exact path="/type_employers/add">
                                     <AddDirectory
+                                        data={dataTypeEmployers}
+                                        table="TYPE_EMPLOYERS"
+                                        title="Добавление типа персонала"
+                                    />
+                                </Route>
+                                <Route exact path="/type_employers/edit">
+                                    <EditDirectory
                                         data={dataTypeEmployers}
                                         table="TYPE_EMPLOYERS"
                                         title="Добавление типа персонала"
@@ -178,6 +191,13 @@ const App = () => {
                                         title="Добавление видов занятости"
                                     />
                                 </Route>
+                                <Route exact path="/job_type/edit">
+                                    <EditDirectory
+                                        data={dataJobType}
+                                        table="JOB_TYPE"
+                                        title="Добавление видов занятости"
+                                    />
+                                </Route>
                                 {/*Подразделения*/}
                                 <Route exact path="/podr">
                                     <Directory
@@ -190,6 +210,13 @@ const App = () => {
                                 </Route>
                                 <Route exact path="/podr/add">
                                     <AddDirectory
+                                        data={dataPodr}
+                                        table="PODR"
+                                        title="Добавление подразделений"
+                                    />
+                                </Route>
+                                <Route exact path="/podr/edit">
+                                    <EditDirectory
                                         data={dataPodr}
                                         table="PODR"
                                         title="Добавление подразделений"
@@ -212,6 +239,13 @@ const App = () => {
                                         title="Добавление ФЛГ"
                                     />
                                 </Route>
+                                <Route exact path="/flg/edit">
+                                    <EditDirectory
+                                        data={dataFlg}
+                                        table="FLG"
+                                        title="Добавление ФЛГ"
+                                    />
+                                </Route>
                                 {/*Вредные факторы*/}
                                 <Route exact path="/factors">
                                     <Directory
@@ -224,6 +258,13 @@ const App = () => {
                                 </Route>
                                 <Route exact path="/factors/add">
                                     <AddDirectory
+                                        data={dataFactors}
+                                        table="FACTORS"
+                                        title="Добавление вредных факторов"
+                                    />
+                                </Route>
+                                <Route exact path="/factors/edit">
+                                    <EditDirectory
                                         data={dataFactors}
                                         table="FACTORS"
                                         title="Добавление вредных факторов"

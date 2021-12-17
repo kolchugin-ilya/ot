@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import MyTable from "../../components/MyTable/MyTable";
+import MyTable from "../../../components/MyTable/MyTable";
 import styles from "./Styles.module.css";
 import {Link} from "react-router-dom";
 

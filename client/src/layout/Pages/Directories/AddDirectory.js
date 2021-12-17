@@ -1,12 +1,22 @@
 import React, {useEffect} from 'react';
 import styles from './Styles.module.css';
 import {useDispatch, useSelector} from "react-redux";
-import {setChangeBRs} from "../../store/actions/data-actions";
+import {setChangeBRs} from "../../../store/actions/data-actions";
 import axios from "axios";
+import useReadDirectoriesById from "../../../hooks/useReadDirectoriesById";
 
 const AddDirectory = ({data, table, title}) => {
     const dispatch = useDispatch();
     const state = useSelector(state => state.changeDataReducer)
+    const {
+        fetchEmployersById,
+        fetchPositionById,
+        fetchPodrById,
+        fetchTypeEmployersById,
+        fetchJobTypeById,
+        fetchFlgById,
+        fetchFactorsById
+    } = useReadDirectoriesById()
 
     function createData(table) {
         function post(table, columns, values, location) {
@@ -55,7 +65,22 @@ const AddDirectory = ({data, table, title}) => {
         createData(table)
     }
     useEffect(() => {
-
+        switch (table) {
+            case "EMPLOYERS":
+                return fetchEmployersById()
+            // case "POSITIONS":
+            //     return fetchPositionById()
+            // case "TYPE_EMPLOYERS":
+            //     return fetchTypeEmployersById()
+            // case "JOB_TYPE":
+            //     return fetchJobTypeById()
+            // case "PODR":
+            //     return fetchPodrById()
+            // case "FLG":
+            //     return fetchFlgById()
+            // case "FACTORS":
+            //     return fetchFactorsById()
+        }
     }, [])
     return (
         <form className={styles.container} onSubmit={(event) => submitForm(event)}>
