@@ -68,18 +68,18 @@ const AddDirectory = ({data, table, title}) => {
         switch (table) {
             case "EMPLOYERS":
                 return fetchEmployersById()
-            // case "POSITIONS":
-            //     return fetchPositionById()
-            // case "TYPE_EMPLOYERS":
-            //     return fetchTypeEmployersById()
-            // case "JOB_TYPE":
-            //     return fetchJobTypeById()
-            // case "PODR":
-            //     return fetchPodrById()
-            // case "FLG":
-            //     return fetchFlgById()
-            // case "FACTORS":
-            //     return fetchFactorsById()
+            case "POSITIONS":
+                return fetchPositionById()
+            case "TYPE_EMPLOYERS":
+                return fetchTypeEmployersById()
+            case "JOB_TYPE":
+                return fetchJobTypeById()
+            case "PODR":
+                return fetchPodrById()
+            case "FLG":
+                return fetchFlgById()
+            case "FACTORS":
+                return fetchFactorsById()
         }
     }, [])
     return (

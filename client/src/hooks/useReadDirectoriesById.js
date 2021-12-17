@@ -8,9 +8,9 @@ const useReadDirectoriesById = () => {
 
     function postDirectoriesById(id, table, row, location) {
         if (!id) {
-            dispatch(setChangeEmployers({
+            dispatch(setChangeBRs({
                 [row]: ""
-            }))
+            }));
             return;
         }
         axios.post("http://localhost:3001/read", {
@@ -20,7 +20,7 @@ const useReadDirectoriesById = () => {
         }, {withCredentials: true})
             .then(response => {
                 let array = response.data.result[0];
-                dispatch(setChangeEmployers({
+                dispatch(setChangeBRs({
                     [row]: array.NAME
                 }))
             })
