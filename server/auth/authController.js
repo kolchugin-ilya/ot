@@ -18,9 +18,9 @@ class authController {
                 }
                 const search_query = mysql.format(`select * from users where name='${name}'`)
                 const hashPassword = bcrypt.hashSync(password, 7);
-                const insert_query = mysql.format(`insert into users(name,password,role,active) values ('${name}', '${hashPassword}', '${role}', '1')`)
+                const insert_query = mysql.format(`insert into users(name,password,role,active_sign) values ('${name}', '${hashPassword}', '${role}', 1)`)
                 await connection.query(search_query, async (err, result) => {
-                    connection.release()
+                    // connection.release()
                     if (err) {
                         res.status(400).json({message: "Ошибка в search_query"})
                     }

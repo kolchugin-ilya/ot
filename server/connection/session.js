@@ -8,7 +8,7 @@ const sessionStore = new MySQLStore({
     clearExpired: true,
     expiration: 7200000, // 2 часа
     checkExpirationInterval: 900000, // 15 минут
-    createDatabaseTable: false,
+    createDatabaseTable: true,
     schema: {
         tableName: 'sessions',
         columnNames:{
